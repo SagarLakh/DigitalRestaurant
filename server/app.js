@@ -2,7 +2,7 @@ var express = require("express");
 var mysql   = require("mysql");
 var bodyParser  = require("body-parser");
 var md5 = require('MD5');
-var rest = require("./REST.js");
+//var rest = require("./REST.js");
 var app  = express();
 
 function REST(){
@@ -18,7 +18,7 @@ REST.prototype.connectMysql = function() {
         port     : '3306',
         user     : 'root',
         password : 'root',
-        database : 'EssenEasy',
+        database : 'EssenEasye',
         debug    :  false
     });
 
@@ -36,7 +36,8 @@ REST.prototype.configureExpress = function(connection) {
       app.use(bodyParser.json());
       var router = express.Router();
       app.use('/api', router);
-      var rest_router = new rest(router,connection,md5);
+      require('./routes/User.js')(router,connection,md5,mysql);
+      //var rest_router = new rest(router,connection,md5);
       self.startServer();
 }
 
