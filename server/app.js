@@ -18,7 +18,7 @@ REST.prototype.connectMysql = function() {
         port     : '3306',
         user     : 'root',
         password : 'root',
-        database : 'EssenEasye',
+        database : 'EssenEasy',
         debug    :  false
     });
 
