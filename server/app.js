@@ -4,6 +4,7 @@ var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 //var rest = require("./REST.js");
 var app  = express();
+var cors = require("cors");
 
 function REST(){
     var self = this;
@@ -54,6 +55,7 @@ REST.prototype.configureExpress = function(connection) {
 }
 
 REST.prototype.startServer = function() {
+      app.use(cors());
       app.listen(3000,function(){
           console.log("All right ! I am alive at Port 3000.");
       });
