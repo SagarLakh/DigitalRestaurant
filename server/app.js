@@ -19,7 +19,7 @@ REST.prototype.connectMysql = function() {
         user     : 'root',
         password : 'ptiproject',
         database : 'EssenEasy',
-        debug    :  false
+        debug    :  true
     });
 
     pool.getConnection(function(err,connection){
