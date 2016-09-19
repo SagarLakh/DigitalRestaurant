@@ -1,0 +1,65 @@
+.iconList {
+	font-size: 24px;
+}
+
+.iconSun {
+	color: #f3d245;
+} 
+
+.iconMoon {
+	color: #534ecb;
+}
+
+.iconRemove, .iconEdit {
+	cursor: pointer;
+}
+
+.iconRemove:hover {
+	color: #F64747;
+	cursor: pointer;
+}
+
+.iconEdit:hover {
+	color: #4B77BE;
+}
+
+.dayBox {
+	height: 15px;
+	width: 15px;
+	margin: 1px;
+	margin-top: 10px;
+	float: left;
+}
+
+.dayBoxGreen {
+	background-color: #88ee91;
+}
+
+.dayBoxGrey {
+	background-color: #d2d2d2;
+}
+
+.table-whaleat > .table > tbody > tr > td:first-child {
+	text-align: left;
+}
+
+.table-whaleat > .table > tbody > tr > td:last-child {
+	text-align: right;
+}
+
+.table-whaleat > .table > tbody > tr:first-child {
+	background-color: #F2F2F2;
+}
+
+.btn-whaleat {
+	background-color: #209e91;
+	color: white;
+}
+
+.btn-whaleat:hover {
+	color: white;
+}
+
+.xsmall-panel !important{
+    height: 600px;
+}

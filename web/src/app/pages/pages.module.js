@@ -2,7 +2,7 @@
  * @author v.lugovsky
  * created on 16.12.2015
  */
- 
+
 (function () {
   'use strict';
 
@@ -22,12 +22,13 @@
     'BlurAdmin.pages.chef',
     'BlurAdmin.pages.waiter',
     'BlurAdmin.pages.restaurant',
-    'BlurAdmin.pages.table'
+    'BlurAdmin.pages.table',
+    'BlurAdmin.common.services'
   ])
       .config(routeConfig);
 
   /** @ngInject */
-  
+
   function routeConfig($urlRouterProvider, baSidebarServiceProvider) {
     $urlRouterProvider.otherwise('/menu');
 

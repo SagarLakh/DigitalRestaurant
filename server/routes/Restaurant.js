@@ -36,6 +36,7 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+
   router.get("/restaurants/:id_restaurant/waiters",function(req,res){
       var query = "SELECT ??.* FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
       var table = ["Waiter","Waiter","Restaurant","Restaurant","id_restaurant","Waiter","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
@@ -126,7 +127,7 @@ module.exports = function (router,connection,md5,mysql) {
   });
 
   router.delete("/restaurants/:id_restaurant",function(req,res){
-      var query_select = "SELECT id_restaurant FROM ?? WHERE ??=?";
+      var query_select = "DELETE FROM ?? WHERE ??=?";
       var table = ["Restaurant","id_restaurant",req.params.id_restaurant];
       query_select = mysql.format(query_select,table);
       connection.query(query_select,function(err,row){
@@ -141,7 +142,7 @@ module.exports = function (router,connection,md5,mysql) {
 
   router.put("/restaurants",function(req,res){
         var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
-        var table = ["Restaurant","name",req.body.name,"email",req.body.email,"phone1",req.body.phone1,"phone2",req.body.phone2,"addredd",req.body.address,"id_restaurant",req.body.id_restaurant];
+        var table = ["Restaurant","name",req.body.name,"email",req.body.email,"phone1",req.body.phone1,"phone2",req.body.phone2,"address",req.body.address,"id_restaurant",req.body.id_restaurant];
         query = mysql.format(query,table);
         connection.query(query,function(err,row){
             if(err) {

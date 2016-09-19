@@ -13,6 +13,7 @@ function REST(){
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -24,7 +25,7 @@ REST.prototype.connectMysql = function() {
         host     : 'localhost',
         port     : '3306',
         user     : 'root',
-        password : 'ptiproject',
+        password : 'root',
         database : 'EssenEasy',
         debug    :  true
     });
@@ -50,14 +51,19 @@ REST.prototype.configureExpress = function(connection) {
       require('./routes/Chef.js')(router,connection,md5,mysql);
       require('./routes/Admin.js')(router,connection,md5,mysql);
       require('./routes/Restaurant.js')(router,connection,md5,mysql);
+      require('./routes/RegisteredUser.js')(router,connection,md5,mysql);
+      require('./routes/Menu.js')(router,connection,md5,mysql);
+      require('./routes/Administration.js')(router,connection,md5,mysql);
+      require('./routes/Dish.js')(router,connection,md5,mysql);
+      require('./routes/ListDishes.js')(router,connection,md5,mysql);
       //var rest_router = new rest(router,connection,md5);
       self.startServer();
 }
 
 REST.prototype.startServer = function() {
       app.use(cors());
-      app.listen(3000,function(){
-          console.log("All right ! I am alive at Port 3000.");
+      app.listen(8080,function(){
+          console.log("All right ! I am alive at Port 8080.");
       });
 }
 

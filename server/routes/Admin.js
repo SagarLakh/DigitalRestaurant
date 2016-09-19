@@ -27,33 +27,33 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
-  router.get("/admins/:id_admin/worker",function(req,res){
-      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
-      var table = ["Worker","Admin","Admin","id_worker","Worker","id_worker","Admin","id_admin",req.params.id_admin];
+  router.get("/admins/registereduser/:id_registered_user",function(req,res){
+      var query = "SELECT * FROM ?? WHERE ??=?";
+      var table = ["Admin","id_registered_user",req.params.id_registered_user];
       query = mysql.format(query,table);
-      console.log(query);
       connection.query(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Success", "Worker + Admin" : row});
+              res.json({"Error" : false, "Message" : "Success", "Admin" : row});
           }
       });
   });
 
-  router.get("/admins/:id_admin/user",function(req,res){
-      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
-      var table = ["User","Worker","Worker","id_user","User","id_user","Admin","Admin","id_worker","Worker","id_worker","Admin","id_admin",req.params.id_admin];
+  router.get("/admins/:id_admin/registereduser",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
+      var table = ["Registered_User","Admin","Admin","id_registered_user","Registered_User","id_registered_user","Admin","id_admin",req.params.id_admin];
       query = mysql.format(query,table);
       console.log(query);
       connection.query(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Success", "User + Worker + Admin" : row});
+              res.json({"Error" : false, "Message" : "Success", "RegisteredUser" : row});
           }
       });
   });
+
 
   router.get("/admins/:id_admin/restaurants",function(req,res){
       var query = "SELECT ??.* FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";

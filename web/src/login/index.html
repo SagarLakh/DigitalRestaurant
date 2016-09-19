@@ -2,24 +2,38 @@
 <html >
   <head>
     <meta charset="UTF-8">
-    <title>Flat Login Form 3.0</title>
-    
-    
+    <title>WhalEAT Login</title>
+
+
     <link rel="stylesheet" href="css/reset.css">
-
     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
-<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="css/style.css">
 
-        <link rel="stylesheet" href="css/style.css">
 
-    
-    
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        var email = $("#input_email")
+        $("#LoginButton").click(function(){
+            console.log("entro");
+            $.post("http://whaleat.com:3000/api/registeredusers/login",
+            {
+              email: $(""),
+              password: "jawohl"
+            },
+            function(data,status){
+                console.log("entro alert");
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+        });
+    });
+    </script>
   </head>
 
   <body>
 
-    
+
 <!-- Form Mixin-->
 <!-- Input Mixin-->
 <!-- Button Mixin-->
@@ -35,9 +49,9 @@
   <div class="form">
     <h2>Login to your account</h2>
     <form>
-      <input type="text" placeholder="Username"/>
-      <input type="password" placeholder="Password"/>
-      <button>Login</button>
+      <input type="text" id="input_email" placeholder="Email"/>
+      <input type="password" id="input_pwd" placeholder="Password"/>
+      <button id="LoginButton" >Login</button>
     </form>
   </div>
   <div class="form">
@@ -47,7 +61,7 @@
       <input type="password" placeholder="Password"/>
       <input type="email" placeholder="Email Address"/>
       <input type="tel" placeholder="Phone Number"/>
-      <button>Register</button>
+      <button >Register</button>
     </form>
   </div>
   <div class="cta"><a href="http://andytran.me">Forgot your password?</a></div>
@@ -57,8 +71,8 @@
 
         <script src="js/index.js"></script>
 
-    
-    
-    
+
+
+
   </body>
 </html>
