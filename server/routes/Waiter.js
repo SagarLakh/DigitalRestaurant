@@ -64,6 +64,20 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.get("/waiters/restaurant/:id_restaurant",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
+      var table = ["User","Worker","Worker","id_user","User","id_user","Waiter","Waiter","id_worker","Worker","id_worker","Nationality","Nationality","id_nationality","Worker","id_nationality", "Worker","id_restaurant",req.params.id_restaurant];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Waiters" : row});
+          }
+      });
+  });
+
   router.get("/waiters/:id_waiter/tables",function(req,res){
       var query = "SELECT ??.??, ??.??, ??.?? FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
       var table = ["Workday","id_table","Workday","hour_ini","Workday","hour_end","Workday","Waiter","Waiter","id_waiter","Workday","id_waiter","Waiter","id_waiter",req.params.id_waiter];

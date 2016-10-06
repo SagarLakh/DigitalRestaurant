@@ -40,6 +40,19 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.get("/dishes/type_dish/:id_type_dish",function(req,res){
+      var query = "SELECT * FROM ?? WHERE ??=?";
+      var table = ["Dish","id_type_dish",req.params.id_type_dish];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Dishes" : row});
+          }
+      });
+  });
+
   router.delete("/dishes/:id_dish",function(req,res){
       var query_select = "DELETE FROM ?? WHERE ??=?";
       var table = ["Dish","id_dish",req.params.id_dish];

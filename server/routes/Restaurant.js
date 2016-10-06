@@ -80,6 +80,20 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.get("/restaurants/admin/:id_admin",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
+      var table = ["Restaurant","Administration","Restaurant","id_restaurant","Administration","id_restaurant","Administration","id_admin",req.params.id_admin];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Restaurants" : row});
+          }
+      });
+  });
+
   router.get("/restaurants/:id_restaurant/tables",function(req,res){
       var query = "SELECT ??.* FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
       var table = ["Table","Table","Restaurant","Restaurant","id_restaurant","Table","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
