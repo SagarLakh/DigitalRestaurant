@@ -1,0 +1,20 @@
+<button type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new Station</button>
+<div class="table-responsive table-whaleat">
+  <table class="table">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th># Dishes</th>
+      <th></th>
+    </tr>
+    <tr ng-repeat="station in stations">
+      <td><i class="ion-ipad iconList iconStation"></i></td>
+      <td>{{station.name}}</td>
+      <td></td>
+      <td>
+        <i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
+        <i ng-click="RemoveChef($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
+      </td>
+    </tr>
+  </table>
+</div>

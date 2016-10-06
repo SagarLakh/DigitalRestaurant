@@ -1,0 +1,21 @@
+
+<div class="row row-margin-bottom">
+	<div class="col-md-4 col-sm-4 col-xs-4">
+		FROM
+	</div>
+	<div class="col-md-8 col-sm-8 col-xs-8 centered">
+		<span class="green_highlight big">{{range.nmin}}</span>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4 col-sm-4  col-xs-4">
+		TO
+	</div>
+	<div class="col-md-8 col-sm-8 col-xs-8 centered">
+		<span class="green_highlight big">{{range.nmax}}</span>
+	</div>
+</div>
+<div class="items-range">
+	<i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
+     <i ng-click="Removedish($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
+</div>

@@ -1,0 +1,25 @@
+<button type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new Waiter</button>
+<div class="table-responsive table-whaleat">
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Nationality</th>
+      <th>Sex</th>
+      <th></th>
+    </tr>
+    <tr ng-repeat="waiter in waiters">
+      <td>{{waiter.name}}</td>
+      <td>{{waiter.surname}}</td>
+      <td><span class="flag-icon flag-icon-{{waiter.ISOCode}}"></span> {{waiter.country_name}}</td>
+      <td>
+        <i ng-if="waiter.sex == 'Male'" class="fa fa-mars iconList iconMale"></i>
+        <i ng-if="waiter.sex == 'Female'" class="fa fa-venus iconList iconFemale"></i>
+      </td>
+      <td>
+        <i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
+        <i ng-click="RemoveChef($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
+      </td>
+    </tr>
+  </table>
+</div>

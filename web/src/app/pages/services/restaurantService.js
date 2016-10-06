@@ -8,11 +8,24 @@
     function restaurantService($http) {
 
       return {
-        getRestaurantsbyAdmin : function(id_admin, callback) {
+        getidRestaurantsbyAdmin : function(id_admin, callback) {
           var data = {};
           $http.get(api.url + '/administrations/admin/' + id_admin, data).then(
               function(result) {
                 callback(result.data.ListRestaurants);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+        getRestaurantsbyAdmin : function(id_admin, callback) {
+          var data = {};
+          $http.get(api.url + '/restaurants/admin/' + id_admin, data).then(
+              function(result) {
+                callback(result.data.Restaurants);
               },
               function(error) {
                 console.log(error);

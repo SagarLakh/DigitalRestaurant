@@ -1,1 +1,23 @@
-<div></div>
+<div class="widgets">
+
+  <div class="row">
+    <div class="col-sm-6 col-md-3 col-lg-3">
+      <div ba-panel ba-panel-class="ligth-text">
+        <div include-with-scope="app/pages/table/widgets/TableTable.html"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div ng-repeat="range in ranges" class="col-sm-6 col-md-3 col-lg-3">
+      <div  ba-panel ba-panel-title="{{range.name}}" ba-panel-class="ligth-text panel-range">
+        <div include-with-scope="app/pages/table/widgets/TableRange.html"></div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 col-lg-3">
+      <div ba-panel ba-panel-title="ADD NEW RANGE" ba-panel-class="ligth-text panel-new-range">
+        <div include-with-scope="app/pages/table/widgets/TableNewRange.html"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

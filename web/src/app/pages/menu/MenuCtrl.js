@@ -71,7 +71,7 @@
     }
     else {
       AdminService.getAdminbyRegisteredUser(uid, function(Admin) {
-          RestaurantService.getRestaurantsbyAdmin(Admin.id_admin,function(Restaurant) {
+          RestaurantService.getidRestaurantsbyAdmin(Admin.id_admin,function(Restaurant) {
             id_restaurant = Restaurant[0].id_restaurant;
             $scope.restaurant = Restaurant[0];
             ProfileService.setCookie("id_restaurant", id_restaurant, 1000000);

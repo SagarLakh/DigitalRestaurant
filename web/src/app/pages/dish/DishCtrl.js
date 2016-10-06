@@ -9,8 +9,8 @@
     .controller('DishCtrl', DishCtrl);
 
   /** @ngInject */
-  function DishCtrl($stateParams, $state, $http, $scope, DishService, ProfileService, AdminService, RestaurantService) {
-    $scope.dishes = {};
+  function DishCtrl($stateParams, $state, $http, $scope, DishService, TypeDishService, ProfileService, AdminService, RestaurantService) {
+    $scope.dishes, $scope.type_dishes, $scope.restaurant= {};
 
     
     $scope.RemoveDish = function(index){
@@ -28,29 +28,35 @@
     var id_restaurant = ProfileService.getCookie("id_restaurant");
     ProfileService.checkUser(username, token);
     
-    if (id_restaurant != "") {
-      
-      DishService.getDishesbyRestaurant(id_restaurant, function(Dishes) {
-        $scope.dishes = Dishes;
-      });
-    }
-    else {
+    if (id_restaurant == "") {
       AdminService.getAdminbyRegisteredUser(uid, function(Admin) {
-          RestaurantService.getRestaurantsbyAdmin(Admin.id_admin,function(Restaurant) {
+          RestaurantService.getidRestaurantsbyAdmin(Admin.id_admin,function(Restaurant) {
             id_restaurant = Restaurant[0].id_restaurant;
             $scope.restaurant = Restaurant[0];
-            ProfileService.setCookie("id_restaurant", id_restaurant, 1000000);
-            DishService.getDishesbyRestaurant(id_restaurant, function(Dishes) {
-              $scope.menus = Menus;
-            });
           });
       });
-      
-      
     }
-    
-   
-  }
+
+    else {
+      ProfileService.setCookie("id_restaurant", id_restaurant, 1000000);
+        TypeDishService.getTypeDishesbyRestaurant(id_restaurant, function(Type_Dishes){
+	      	$scope.type_dishes = Type_Dishes;
+	      	
+	      	for (var i = 0; i < $scope.type_dishes.length; i++) {
+	      		
+	      		 DishService.getDishesbyTypeDish(i, $scope.type_dishes[i].id_type_dish, function(Dishes) {
+	      		 	
+	              	$scope.type_dishes[Dishes.i].dishes = Dishes.Dishes;
+	            });
+	      		
+	      	};
+	      	console.log($scope.type_dishes);
+	      	
+	     });
+
+
+  	}
+   }
 
   
 

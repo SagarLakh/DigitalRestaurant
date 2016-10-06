@@ -21,6 +21,21 @@
               }
             );
         },
+        getDishesbyTypeDish : function(i, id_type_dish, callback) {
+          var data = {};
+          var return_var = {};
+          $http.get(api.url + '/dishes/type_dish/' + id_type_dish, data).then(
+              function(result) {
+                return_var.i = i;
+                return_var.Dishes = result.data.Dishes;
+                callback(return_var);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
 
         delete : function(id_dish, callback) {
           var data = {};

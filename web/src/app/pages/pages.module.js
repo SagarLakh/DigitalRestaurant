@@ -23,6 +23,7 @@
     'BlurAdmin.pages.waiter',
     'BlurAdmin.pages.restaurant',
     'BlurAdmin.pages.table',
+    'BlurAdmin.pages.station',
     'BlurAdmin.common.services'
   ])
       .config(routeConfig);
@@ -35,27 +36,36 @@
     baSidebarServiceProvider.addStaticItem({
       title: 'Menu',
       stateRef: 'menu',
-      icon: 'ion-document'
+      icon: 'icon-menu'
     }, {
       title: 'Dish',
-      stateRef: 'dish'
+      stateRef: 'dish',
+      icon: 'icon-hot-meal'
     }, {
       title: 'Worker',
       blank: true,
       icon: 'ion-more',
       subMenu: [{
         title: 'Chef',
-        stateRef: 'chef'
+        stateRef: 'chef',
+        icon:'icon-chef-hat'
       }, {
         title: 'Waiter',
-        stateRef: 'waiter'
+        stateRef: 'waiter',
+        icon:'icon-hot-meal'
       }]
     }, {
       title: 'Restaurant',
-      stateRef: 'restaurant'
+      stateRef: 'restaurant',
+      icon: 'ion-android-restaurant'
     }, {
       title: 'Table',
-      stateRef: 'table'
+      stateRef: 'table',
+      icon:'icon-table-paper'
+    }, {
+      title: 'Station',
+      stateRef: 'station',
+      icon:'ion-ipad'
     });
 
     /*baSidebarServiceProvider.addStaticItem({
