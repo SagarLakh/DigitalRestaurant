@@ -52,7 +52,7 @@
       }, {
         title: 'Waiter',
         stateRef: 'waiter',
-        icon:'icon-hot-meal'
+        icon:'icon-bow-tie'
       }]
     }, {
       title: 'Restaurant',

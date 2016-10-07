@@ -14,6 +14,8 @@ web.url = protocol + "://" + web.domain;
 
 
 
+
+
 angular.module('BlurAdmin', [
   'ngAnimate',
   'ui.bootstrap',

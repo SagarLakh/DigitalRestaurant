@@ -9,7 +9,7 @@
     .controller('ChefCtrl', ChefCtrl);
 
   /** @ngInject */
-  function ChefCtrl($stateParams, ProfileService, RestaurantService, ChefService, AdminService, $state, $http, $scope) {
+  function ChefCtrl($stateParams, ProfileService, RestaurantService, ChefService, AdminService, $state, $http, $scope, $animateCss, $uibModal) {
 
     $scope.chefs = {};
 
@@ -21,6 +21,20 @@
             $scope.chefs = Chefs;
             console.log($scope.chefs);
           });
+      });
+    };
+
+    $scope.openModal = function (page, size) {
+      console.log("de puts o q?");
+      $uibModal.open({
+        animation: true,
+        templateUrl: page,
+        size: size,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          }
+        }
       });
     };
     
