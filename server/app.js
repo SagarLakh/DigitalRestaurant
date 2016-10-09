@@ -60,6 +60,9 @@ REST.prototype.configureExpress = function(connection) {
       require('./routes/Range.js')(router,connection,md5,mysql);
       require('./routes/Table.js')(router,connection,md5,mysql);
       require('./routes/Station.js')(router,connection,md5,mysql);
+      require('./routes/Guest.js')(router,connection,md5,mysql);
+      require('./routes/Sit.js')(router,connection,md5,mysql);
+      require('./routes/Order.js')(router,connection,md5,mysql);
       //var rest_router = new rest(router,connection,md5);
       self.startServer();
 }
