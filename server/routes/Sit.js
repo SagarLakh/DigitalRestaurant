@@ -48,7 +48,7 @@ module.exports = function (router,connection,md5,mysql) {
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Sit Added !"});
+              res.json({"Error" : false, "Message" : "Sit Added !", "id_sit" : row.insertId});
           }
       });
   });

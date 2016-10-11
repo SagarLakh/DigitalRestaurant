@@ -27,15 +27,41 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
-  router.get("/clients/:id_client/user",function(req,res){
+  router.get("/clients/:id_client/registereduser",function(req,res){
       var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
-      var table = ["User","Client","Client","id_user","User","id_user","Client","id_client",req.params.id_client];
+      var table = ["Registered_User","Client","Client","id_registered_user","Registered_User","id_registered_user","Client","id_client",req.params.id_client];
       query = mysql.format(query,table);
       connection.query(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Success", "User + Client" : rows});
+              res.json({"Error" : false, "Message" : "Success", "Registered_User" : rows});
+          }
+      });
+  });
+
+  router.get("/clients/registereduser/:id_registered_user",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
+      var table = ["Registered_User","Client","Client","id_registered_user","Registered_User","id_registered_user","Registered_User","id_registered_user",req.params.id_registered_user];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,rows){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Registered_User" : rows});
+          }
+      });
+  });
+
+  router.get("/clients/:id_client/user",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
+      var table = ["Client","Registered_User","Client","id_registered_user","Registered_User","id_registered_user","User", "User", "id_user", "Registered_User","id_user", "Client","id_client",req.params.id_client];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,rows){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "User" : rows});
           }
       });
   });
