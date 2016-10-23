@@ -56,7 +56,22 @@ module.exports = function (router,connection,md5,mysql) {
   });
 
 
-  router.post("/workers",function(req,res){
+  router.put("/workers",function(req,res){
+      var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+      var table = ["Worker","id_nationality",req.body.id_nationality,"id_worker",req.body.id_worker];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Worker Updated !", "Worker" : row});
+          }
+      });
+  });
+
+
+  /*router.post("/workers",function(req,res){
       var query = "INSERT INTO ??(??,??,??,??,??,??) VALUES (?,?,?,?,?,?)";
       var table = ["User","name","surname","email","username","password","sex",req.body.name,req.body.surname,req.body.email,req.body.username,md5(req.body.password),req.body.sex];
       query = mysql.format(query,table);
@@ -78,39 +93,22 @@ module.exports = function (router,connection,md5,mysql) {
             });
           }
       });
+  });*/
+
+router.post("/workers",function(req,res){
+    var query = "INSERT INTO ??(??,??,??) VALUES (?,?,?)";
+    var table = ["Worker","id_user","id_nationality","id_restaurant",req.body.id_user,req.body.id_nationality,req.body.id_restaurant];
+    query = mysql.format(query,table);
+    console.log(query);
+    connection.query(query,function(err,row){
+        if(err) {
+            res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Worker)"});
+        } else {
+            res.json({"Error" : false, "Message" : "Worker Added !", "Worker" : row});
+        }
+    });
   });
 
-  router.delete("/workers/:id_worker",function(req,res){
-      var query_select = "SELECT id_user FROM ?? WHERE ??=?";
-      var table = ["Worker","id_worker",req.params.id_worker];
-      query_select = mysql.format(query_select,table);
-      connection.query(query_select,function(err,row){
-          if(err) {
-              res.json({"Error" : true, "Message" : "Error executing MySQL query_select"});
-          } else {
-            var id_user = row[0].id_user;
-            var query_delete = "DELETE FROM ?? WHERE ??=?";
-            var table = ["Worker","id_worker",req.params.id_worker];
-            query_delete = mysql.format(query_delete,table);
-            connection.query(query_delete,function(err,row){
-                if(err) {
-                    res.json({"Error" : true, "Message" : "Error executing MySQL query"});
-                } else {
-                    var query = "DELETE FROM ?? WHERE ??=?";
-                    var table = ["User","id_user",id_user];
-                    query = mysql.format(query,table);
-                    connection.query(query,function(err,row){
-                        if(err) {
-                            res.json({"Error" : true, "Message" : "Error executing MySQL query"});
-                        } else {
-                          res.json({"Error" : false, "Message" : "Success, worker with id_worker = "+req.params.id_worker+" deleted"});
-                        }
-                    });
-                }
-            });
-          }
-      });
-  });
 
   router.put("/workers",function(req,res){
         var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";

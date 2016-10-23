@@ -22,6 +22,11 @@
           res = titleTpl + res; // title should be before
         }
 
+        if (attrs.baPanelTitleChef) {
+          var titleTpl = '<div class="panel-heading clearfix"><h3 class="panel-title">Table  <span class="label label-primary">' + attrs.baPanelTitleChef + '</span></h3></div>';
+          res = titleTpl + res; // title should be before
+        }
+
         return res;
       }
     };

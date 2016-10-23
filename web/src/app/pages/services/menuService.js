@@ -33,6 +33,32 @@
             );
         },
 
+        changeDay : function(data, callback) {
+          $http.put(api.url + '/menus/listdays', data).then(
+              function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+        editMenu : function(data, callback) {
+          
+          console.log(data);
+          $http.put(api.url + '/menus', data).then(
+              function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         delete : function(id_menu, callback) {
           var data = {};
           $http.delete(api.url + '/menus/' + id_menu, data).then(

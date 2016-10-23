@@ -5,7 +5,7 @@
     .service('DishService',dishService);
 
 
-    function dishService($http) {
+    function dishService($http, TypeDishService, ListAllergiesService) {
       
 
       return {
@@ -37,11 +37,117 @@
             );
         },
 
+        addDish : function(dish, callback) {
+          dish.id_type_dish = {};
+          dish.active = 'true';
+          if (dish.allergies == undefined) dish.allergies = {};
+          dish.sequence = dish.seq.id_sequence;
+          if(dish.newtype == null) {
+            dish.id_type_dish = dish.type.id_type_dish;
+            console.log(dish);
+            $http.post(api.url + '/dishes', dish).then(
+              function(result) {
+                for (var i = 0; i < dish.allergies.length; i++) {
+                    dish.allergies[i].id_dish = result.data.Dish.insertId;
+                    console.log(dish.allergies[i]);
+                    ListAllergiesService.add(dish.allergies[i], function(List_Allergies) {
+                      console.log(List_Allergies);
+                      });
+                  };
+                callback(result.data.Dish);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+          }
+          else {
+            var data = {
+              id_restaurant: dish.id_restaurant,
+              name: dish.newtype
+            }
+            TypeDishService.add(data, function(TypeDish) {
+              dish.id_type_dish = TypeDish.insertId;
+              $http.post(api.url + '/dishes', dish).then(
+                function(result) {
+                  for (var i = 0; i < dish.allergies.length; i++) {
+                    dish.allergies[i].id_dish = result.data.Dish.insertId;
+                    console.log(dish.allergies[i]);
+                    ListAllergiesService.add(dish.allergies[i], function(List_Allergies) {
+                      console.log(List_Allergies);
+                      });
+                  };
+                  callback(result.data.Dish);
+                },
+                function(error) {
+                  console.log(error);
+                  callback(error);
+                }
+              );
+            });
+            
+          }
+
+          console.log(dish);
+        },
+
+        editDish : function(dish, callback) {
+          console.log(dish);
+          if(dish.newtype == null) {
+            console.log(dish);
+            $http.put(api.url + '/dishes', dish).then(
+              function(result) {
+                for (var i = 0; i < dish.allergies.length; i++) {
+                    dish.allergies[i].id_dish = result.data.Dish.insertId;
+                    console.log(dish.allergies[i]);
+                    ListAllergiesService.add(dish.allergies[i], function(List_Allergies) {
+                      console.log(List_Allergies);
+                      });
+                  };
+                callback(result.data.Dish);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+          }
+          else {
+            var data = {
+              id_restaurant: dish.id_restaurant,
+              name: dish.newtype
+            }
+            TypeDishService.add(data, function(TypeDish) {
+              dish.id_type_dish = TypeDish.insertId;
+              $http.post(api.url + '/dishes', dish).then(
+                function(result) {
+                  for (var i = 0; i < dish.allergies.length; i++) {
+                    dish.allergies[i].id_dish = result.data.Dish.insertId;
+                    console.log(dish.allergies[i]);
+                    ListAllergiesService.add(dish.allergies[i], function(List_Allergies) {
+                      console.log(List_Allergies);
+                      });
+                  };
+                  callback(result.data.Dish);
+                },
+                function(error) {
+                  console.log(error);
+                  callback(error);
+                }
+              );
+            });
+            
+          }
+
+          console.log(dish);
+        },
+
         delete : function(id_dish, callback) {
           var data = {};
-          $http.get(api.url + '/dishes/restaurant/' + id_dish, data).then(
+          $http.delete(api.url + '/dishes/' + id_dish, data).then(
               function(result) {
-                callback(result.data.Dishes);
+                callback(result.data.Dish);
               },
               function(error) {
                 console.log(error);

@@ -21,6 +21,19 @@
             );
         },
 
+        add : function(type_dish, callback) {
+          
+          $http.post(api.url + '/typedishes', type_dish).then(
+              function(result) {
+                callback(result.data.Type_Dish);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         getMessagesByLabel : function(label){
           return messages.filter(function(m){
             return m.labels.indexOf(label) != -1;

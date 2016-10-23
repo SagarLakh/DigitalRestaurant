@@ -1,0 +1,124 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h4 class="modal-title">Edit your menu</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="input-name">Name</label>
+          <input type="text" class="form-control" id="input-name" placeholder="Menu Name" ng-model="item.name">
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="inputfixedprice"><input ng-model="item.fixed_price" type="checkbox" id="inputfixedprice"> Fixed Price</label>
+          <div class="input-group">
+            <input ng-model="item.price" type="number" class="form-control" id="input-price" ng-disabled="!(item.fixed_price)" placeholder="Price">
+            <span class="input-group-addon addon-right input-group-addon-primary">€</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="inputFirstName">Do you want to make a copy?</label>
+          <select class="form-control selectpicker with-search" data-live-search="true" title="Menus" ng-change="console.log('change')" selectpicker
+            ng-model="menu"
+            ng-options="menu as menu.name for menu in menus">
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <input ng-model="item.active" type="checkbox" id="inputinactive"> Start as inactive?
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1 col-xs-2">
+        <div class="form-group">
+        <label for="input-all">All</label>
+          <input type="checkbox" class="form-control" id="input-all" ng-model="item.all">
+        </div>
+      </div>
+      <div class="col-sm-4 col-xs-4">
+        <div class="form-group">
+            <div class="row">
+              <div class="col-sm-2 col-xs-2">
+                <label for="input-monday">M</label>
+                <input type="checkbox" class="form-control" id="input-monday" ng-disabled="item.all" ng-model="item.array_days[0]">
+              </div>
+              <div class="col-sm-2 col-xs-2">
+                <div class="form-group">
+                <label for="input-tuesday">T</label>
+                  <input type="checkbox" class="form-control" id="input-tuesday" ng-disabled="item.all"ng-model="item.array_days[1]">
+                </div>
+              </div>
+              <div class="col-sm-2 col-xs-2">
+                <div class="form-group">
+                <label for="input-wednesday">W</label>
+                  <input type="checkbox" class="form-control" id="input-wednesday" ng-disabled="item.all" ng-model="item.array_days[2]">
+                </div>
+              </div>
+              <div class="col-sm-2 col-xs-2">
+                <div class="form-group">
+                <label for="input-thursday">T</label>
+                  <input type="checkbox" class="form-control" id="input-thursdays" ng-disabled="item.all" ng-model="item.array_days[3]">
+                </div>
+              </div>
+              <div class="col-sm-2 col-xs-2">
+                <div class="form-group">
+                <label for="input-friday">F</label>
+                  <input type="checkbox" class="form-control" id="input-fridays" ng-disabled="item.all" ng-model="item.array_days[4]">
+                </div>
+              </div>    
+        </div>
+      </div>
+      </div>
+      <div class="col-sm-2 col-xs-2">
+        <div class="form-group">
+            <div class="col-sm-6 col-xs-6">
+              <div class="form-group">
+              <label for="input-saturday">S</label>
+                <input type="checkbox" class="form-control" id="input-saturday" ng-disabled="item.all" ng-model="item.array_days[5]">
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+              <div class="form-group">
+              <label for="input-sunday">S</label>
+                <input type="checkbox" class="form-control" id="input-sunday" ng-disabled="item.all" ng-model="item.array_days[6]">
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-2 col-xs-2">
+        <div class="form-group">
+            <div class="col-sm-6 col-xs-6">
+              <div class="form-group">
+              <label for="input-midday">
+                <i class="ion-ios-sunny-outline iconList iconSun"></i>
+              </label>
+                <input type="checkbox" class="form-control" id="input-midday" ng-model="item.array_moment_day[0]">
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+              <div class="form-group">
+              <label for="input-night">
+                <i class="ion-ios-moon-outline iconList iconMoon"></i>
+              </label>
+                <input type="checkbox" class="form-control" id="input-night" ng-model="item.array_moment_day[1]">
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="edit(item);">Save changes</button>
+  </div>
+</div>

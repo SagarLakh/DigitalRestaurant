@@ -13,7 +13,16 @@
 
     $scope.stations = {};
 
-    
+    $scope.goToView = function(view, id_station){
+      
+      var data = {
+        'id_station' : id_station
+      };
+      console.log(data);
+      $state.go(view, data);
+    };
+
+
     $scope.RemoveStation = function(index){
       var id_station = $scope.stations[index].id_station;
       StationService.delete(id_station, function(result){

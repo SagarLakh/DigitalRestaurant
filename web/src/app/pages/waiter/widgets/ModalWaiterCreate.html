@@ -1,0 +1,79 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h4 class="modal-title">Add a new Waiter</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="userpic">
+          <div class="userpic-wrapper">
+            <img ng-src="{{ item.img_path }}" ng-click="uploadPicture()">
+          </div>
+          <i class="ion-ios-close-outline" ng-click="removePicture()" ng-if="!noPicture"></i>
+          <a href class="change-userpic" ng-click="uploadPicture()">Change Picture</a>
+          <input type="file" ng-show="false" id="uploadFile" ng-file-select="onFileSelect($files)">
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="form-group">
+              <label for="input-name">Name</label>
+                <input type="text" class="form-control" id="input-name" placeholder="Waiter Name" ng-model="item.name">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="input-name">Surname</label>
+                <input type="text" class="form-control" id="input-surname" placeholder="Waiter Surname" ng-model="item.surname">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="input-nationality">Nationality</label>
+              <select id="input-nationality" class="form-control selectpicker with-search" data-live-search="true" title="Nationality" selectpicker
+                ng-model="item.nat"
+                ng-options="nationality as nationality.country_name for nationality in nationalities">
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="form-group">
+              <label for="input-sex">Sex</label>
+              <div class="row" id="input-sex">
+                <div class="col-md-6">
+                  <label class="radio-inline custom-radio nowrap">
+                    <input type="radio" name="inlineSexOptions" id="input-male" value="Male" ng-model="item.sex">
+                    <span><i class="fa fa-mars iconList iconMale"></i></span>
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <label class="radio-inline custom-radio nowrap">
+                    <input type="radio" name="inlineSexOptions" id="input-female" value="Female" ng-model="item.sex">
+                    <span><i class="fa fa-venus iconList iconFemale"></i></span></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="add(item);">Create</button>
+  </div>
+</div>
+
+
+
+
+
+

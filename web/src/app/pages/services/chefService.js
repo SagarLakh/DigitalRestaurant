@@ -21,6 +21,18 @@
             );
         },
 
+        addChef : function(data, callback) {
+          $http.post(api.url + '/chefs', data).then(
+              function(result) {
+                callback(result.data.Chef);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         getMessagesByLabel : function(label){
           return messages.filter(function(m){
             return m.labels.indexOf(label) != -1;

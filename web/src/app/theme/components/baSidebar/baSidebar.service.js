@@ -50,6 +50,11 @@
           isMenuCollapsed = !isMenuCollapsed;
         };
 
+        this.MenuCollapsed = function(state) {
+          if (state == 'open') isMenuCollapsed = false;
+          else isMenuCollapsed = true;
+        };
+
         this.getAllStateRefsRecursive = function(item) {
           var result = [];
           _iterateSubItems(item);

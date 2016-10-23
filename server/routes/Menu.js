@@ -52,18 +52,23 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
-  router.put("/menus/listdays/:id_menu",function(req,res){
-        var new_list_days = req.body.listdays;
-        console.log(new_list_days[req.body.index_day]);
-        if (new_list_days[req.body.index_day] == 0) {
-            new_list_days[req.body.index_day] = 1;
-            console.log("entro");
-            console.log(new_list_days[req.body.index_day]);
-        }
-        else new_list_days[req.body.index_day] = 1;
-        console.log(new_list_days);
+  router.put("/menus/listdays",function(req,res){
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-        var table = ["Menu","listDays",new_list_days,"id_menu",req.params.id_menu];
+        var table = ["Menu","listDays",req.body.newdays,"id_menu",req.body.menu.id_menu];
+        query = mysql.format(query,table);
+        connection.query(query,function(err,row){
+            if(err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+            } else {
+                res.json({"Error" : false, "Message" : "Updated correctly"});
+            }
+        });
+    });
+
+  router.put("/menus",function(req,res){
+        console.log(req.body);
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+        var table = ["Menu","listDays",req.body.listDays,"name",req.body.name,"price",req.body.price, "moment_day", req.body.moment_day, "id_menu",req.body.id_menu];
         query = mysql.format(query,table);
         connection.query(query,function(err,row){
             if(err) {
@@ -85,9 +90,6 @@ module.exports = function (router,connection,md5,mysql) {
 
                 if (row[0].active == 'true') var change = 'false';
                 else var change = 'true';
-                console.log(row[0].active);
-                console.log("BOOLEAN");
-                console.log(change);
                 var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
                 var table = ["Menu","active", change, "id_menu",req.params.id_menu];
                 query = mysql.format(query,table);

@@ -27,6 +27,32 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.get("/sits/restaurant/:id_restaurant/active",function(req,res){
+      var query = "SELECT DISTINCT Sit.id_table, Table.id_table_restaurant FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??=? AND ?? = ?";
+      var table = ["Sit","Table","Sit","id_table","Table","id_table","id_restaurant",req.params.id_restaurant, "active", "true"];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Sits" : row});
+          }
+      });
+  });
+
+  router.put("/sits/:id_sit/finish",function(req,res){
+      var query = "UPDATE ?? SET ?? = ? WHERE ??=?";
+      var table = ["Sit","active", "false","id_sit",req.params.id_sit];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Sits" : row});
+          }
+      });
+  });
+
    /*router.get("/sits/client/:id_client",function(req,res){
       var query = "SELECT ??.* FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
       var table = ["Guest", "Guest", "Client", "Client", "id_client", "Guest", "id_client", "Guest", "id_client",req.params.id_client];
@@ -42,7 +68,8 @@ module.exports = function (router,connection,md5,mysql) {
 
    router.post("/sits",function(req,res){
       var query = "INSERT INTO ??(??,??,??) VALUES (?,?,?)";
-      var table = ["Sit","id_client","id_table", "hour_ini", req.body.id_client,req.body.id_table, req.body.hour_ini];
+      var table = ["Sit","id_client","id_table","id_restaurant", req.body.id_client,req.body.id_table,req.body.id_restaurant];
+      console.log(query);
       query = mysql.format(query,table);
       connection.query(query,function(err,row){
           if(err) {

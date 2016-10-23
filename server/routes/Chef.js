@@ -107,7 +107,7 @@ module.exports = function (router,connection,md5,mysql) {
   });
 
 
-  router.post("/chefs",function(req,res){
+  /*router.post("/chefs",function(req,res){
       var query = "INSERT INTO ??(??,??,??,??,??,??) VALUES (?,?,?,?,?,?)";
       var table = ["User","name","surname","email","username","password","sex",req.body.name,req.body.surname,req.body.email,req.body.username,md5(req.body.password),req.body.sex];
       query = mysql.format(query,table);
@@ -139,7 +139,9 @@ module.exports = function (router,connection,md5,mysql) {
             });
           }
       });
-  });
+  });*/
+
+
 
   router.delete("/chefs/:id_chef",function(req,res){
       var query_select = "SELECT id_worker FROM ?? WHERE ??=?";
@@ -203,6 +205,21 @@ module.exports = function (router,connection,md5,mysql) {
           }
       });
   });
+
+  router.post("/chefs",function(req,res){ 
+    var query = "INSERT INTO ??(??) VALUES (?)";
+    var table = ["Chef","id_worker",req.body.id_worker];
+    query = mysql.format(query,table);
+    console.log(query);
+    connection.query(query,function(err,row){
+        if(err) {
+            res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Chef)"});
+        } else {
+            res.json({"Error" : false, "Message" : "Chef Added !", "Chef" : row});
+        }
+    });
+  });
+  
 
   router.put("/chefs",function(req,res){
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";

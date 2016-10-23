@@ -14,7 +14,8 @@
       restrict: 'EA',
       replace: true,
       scope: {
-        ngModel: '='
+        ngModel: '=',
+        ngChange: '&'
       },
       template: '<div class="switch-container {{color}}"><input type="checkbox" ng-model="ngModel"></div>',
       link: function (scope, elem, attr) {
@@ -23,6 +24,10 @@
           $(elem).find('input').bootstrapSwitch({
             size: 'small',
             onColor: attr.color
+          });
+
+          $(elem).on('switchChange.bootstrapSwitch', function(event, state) {
+            scope.ngChange();
           });
         });
       }

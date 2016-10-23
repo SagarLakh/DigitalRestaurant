@@ -11,8 +11,8 @@ module.exports = function (router,connection,md5,mysql) {
   }
 
   router.get("/nationalities",function(req,res){
-      var query = "SELECT * FROM ??";
-      var table = ["Nationality"];
+      var query = "SELECT * FROM ?? ORDER BY ??";
+      var table = ["Nationality","country_name"];
       query = mysql.format(query,table);
       connection.query(query,function(err,rows){
           if(err) {

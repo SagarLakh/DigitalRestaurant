@@ -123,41 +123,6 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
-
-  router.post("/waiters",function(req,res){
-      var query = "INSERT INTO ??(??,??,??,??,??,??) VALUES (?,?,?,?,?,?)";
-      var table = ["User","name","surname","email","username","password","sex",req.body.name,req.body.surname,req.body.email,req.body.username,md5(req.body.password),req.body.sex];
-      query = mysql.format(query,table);
-      connection.query(query,function(err,row){
-          if(err) {
-              res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding User)", "Error" : err});
-          } else {
-            console.log(row);
-            var query = "INSERT INTO ??(??,??,??,??,??) VALUES (?,?,?,?,?)";
-            var table = ["Worker","id_user","id_number","ss","nationality","salary",row.insertId,req.body.id_number,req.body.ss,req.body.nationality,req.body.salary];
-            query = mysql.format(query,table);
-            console.log(query);
-            connection.query(query,function(err,row){
-                if(err) {
-                    res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Worker)"});
-                } else {
-                  var query = "INSERT INTO ??(??,??) VALUES (?,?)";
-                  var table = ["Waiter","id_worker","id_restaurant",row.insertId,req.body.id_restaurant];
-                  query = mysql.format(query,table);
-                  console.log(query);
-                  connection.query(query,function(err,row){
-                      if(err) {
-                          res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Waiter)"});
-                      } else {
-                          res.json({"Error" : false, "Message" : "Waiter Added !"});
-                      }
-                  });
-                }
-            });
-          }
-      });
-  });
-
   router.delete("/waiters/:id_waiter",function(req,res){
       var query_select = "SELECT id_worker FROM ?? WHERE ??=?";
       var table = ["Waiter","id_waiter",req.params.id_waiter];
@@ -220,6 +185,21 @@ module.exports = function (router,connection,md5,mysql) {
           }
       });
   });
+
+  router.post("/waiters",function(req,res){ 
+    var query = "INSERT INTO ??(??) VALUES (?)";
+    var table = ["Waiter","id_worker",req.body.id_worker];
+    query = mysql.format(query,table);
+    console.log(query);
+    connection.query(query,function(err,row){
+        if(err) {
+            res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Waiter)"});
+        } else {
+            res.json({"Error" : false, "Message" : "Waiter Added !", "Waiter" : row});
+        }
+    });
+  });
+  
 
   router.put("/waiters",function(req,res){
         var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";

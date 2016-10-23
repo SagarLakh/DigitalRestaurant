@@ -21,6 +21,20 @@
             );
         },
 
+        addWaiter : function(data, callback) {
+          console.log(data);
+          $http.post(api.url + '/waiters', data).then(
+              function(result) {
+                console.log(result.data.Waiter);
+                callback(result.data.Waiter);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         getMessagesByLabel : function(label){
           return messages.filter(function(m){
             return m.labels.indexOf(label) != -1;

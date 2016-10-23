@@ -39,4 +39,17 @@ module.exports = function (router,connection,md5,mysql) {
           }
       });
   });
+
+  router.post("/typedishes",function(req,res){
+      var query = "INSERT INTO ?? (??,??) VALUES (?, ?)";
+      var table = ["Type_Dish","name","id_restaurant",req.body.name, req.body.id_restaurant];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Type_Dish" : row});
+          }
+      });
+  });
 }

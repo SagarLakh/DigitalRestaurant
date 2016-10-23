@@ -60,7 +60,7 @@
     var openedToasts = [];
     $scope.options = {
       autoDismiss: false,
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-top',
       type: 'info',
       timeOut: '5000',
       extendedTimeOut: '2000',

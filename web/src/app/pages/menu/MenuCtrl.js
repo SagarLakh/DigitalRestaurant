@@ -10,11 +10,96 @@
 
 
   /** @ngInject */
-  function MenuCtrl($stateParams, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope) {
-
-    $scope.menus = {};
-
+  function MenuCtrl($stateParams, baSidebarService, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope, $uibModal) {
     
+    $scope.menus = {};
+    $scope.sequence = [
+                      {id_type_dish : 1, name : 'Drink'},
+                      {id_type_dish : 2, name : 'Appetizer'},
+                      {id_type_dish : 3, name : 'First'},
+                      {id_type_dish : 4, name : 'Second'},
+                      {id_type_dish : 5, name : 'Third'},
+                      {id_type_dish : 6, name : 'Dessert'}
+                      ];
+
+    var parseDataToModal = function(item) {
+      item.fixed_price = !(item.price == null);
+      item.active = (item.active === 'true');
+      item.array_days = [];
+      for (var i = 0; i < item.listDays.length; i++) {
+        item.array_days[i] = (item.listDays[i] === '1');
+      };
+      item.array_moment_day = [];
+      for (var i = 0; i < item.moment_day.length; i++) {
+        item.array_moment_day[i] = (item.moment_day[i] === '1');
+      };
+    }
+
+    $scope.openModalEdit = function (page, size, data) {
+      var item = angular.copy(data);
+      parseDataToModal(item);
+      $scope.item = item;
+      console.log($scope.item);
+      $scope.TheModal = $uibModal.open({
+        animation: true,
+        templateUrl: page,
+        size: size,
+        scope: $scope
+        
+      });
+    };
+
+    $scope.onMenuImportSelect = function(menu) {
+      var item = angular.copy(menu);
+      parseDataToModal(item);
+      $scope.item = item;
+    };
+
+    $scope.openModalCreate = function (page, size) {
+      $scope.item = {};
+      
+      var response = this;
+
+      response.settings = {};
+      response.dishes = {};
+
+      console.log($scope.item);
+      $scope.TheModal = $uibModal.open({
+        animation: true,
+        templateUrl: page,
+        size: size,
+        scope: $scope
+        
+      });
+    };
+
+    var parseDataToDB = function(item) {
+      item.listDays = '';
+      item.moment_day = '';
+      if (item.fixed_price == false) item.price = null;
+      for (var i = 0; i < item.array_days.length; i++) {
+        if(item.array_days[i] == true) item.listDays = item.listDays + '1';
+        else item.listDays = item.listDays + '0';
+      };
+      for (var i = 0; i < item.array_moment_day.length; i++) {
+        if(item.array_moment_day[i] == true) item.moment_day = item.moment_day + '1';
+        else item.moment_day = item.moment_day + '0';
+      };
+    }
+
+    $scope.edit = function (item) {
+      $scope.TheModal.close();
+      parseDataToDB(item);
+      console.log(item);
+      MenuService.editMenu(item, function(Menu) {
+        console.log(Menu);
+        MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
+            $scope.menus = Menus;
+          });
+      });
+    };
+
+
     $scope.RemoveMenu = function(index){
       var id_menu = $scope.menus[index].id_menu;
       MenuService.delete(id_menu, function(result){
@@ -25,6 +110,7 @@
     };
 
     $scope.ChangeStateActive = function(index){
+      console.log("state");
       var id_menu = $scope.menus[index].id_menu;
       MenuService.changeStateActive(id_menu, function(result) {
       });
@@ -35,24 +121,25 @@
       ProfileService.logOut();
     };
 
-    $scope.ChangeAvailabilityDay = function(n, index) {
-      /*console.log(n);
-      console.log(index);
-      console.log($scope.menus[index].listDays);
-        var holi = {};
-        holi.listDays= $scope.menus[index].listDays;
-        console.log(holi.listDays);
-        holi.listDays[n] = !(holi.listDays[n]===1);
-        console.log(holi.listDays);*/
+    $scope.ChangeAvailabilityDay = function(n, menu) {
+        var data = {};
+        data.newdays = '';
+        data.menu = menu;
+        for (var i = 0; i < menu.listDays.length; i++) {
+          if (i == n){
+            if (menu.listDays[i] === '1')data.newdays = data.newdays + '0';
+            else data.newdays = data.newdays + '1'; 
+          }
+          else data.newdays = data.newdays + menu.listDays[i];
+        };
+        console.log(data);
+        MenuService.changeDay(data, function(Menus) {
+            MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
+              $scope.menus = Menus;
+            });
+          });
 
-        $http.put(api.url + '/menus')
-        .success(function(data) {
-            $scope.menus = data.Menus;
-            console.log($scope.menus);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
+        
 
     };
     
@@ -67,6 +154,7 @@
       
       MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
         $scope.menus = Menus;
+        console.log(Menus);
       });
     }
     else {
@@ -77,6 +165,8 @@
             ProfileService.setCookie("id_restaurant", id_restaurant, 1000000);
             MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
               $scope.menus = Menus;
+              $scope.active = false;
+              console.log(Menus);
             });
           });
       });

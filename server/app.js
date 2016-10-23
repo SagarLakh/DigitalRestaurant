@@ -40,8 +40,8 @@ REST.prototype.connectMysql = function() {
 }
 REST.prototype.configureExpress = function(connection) {
       var self = this;
-      app.use(bodyParser.urlencoded({ extended: true }));
-      app.use(bodyParser.json());
+      app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+      app.use(bodyParser.json({limit: '50mb'}));
       var router = express.Router();
       app.use('/api', router);
       require('./routes/User.js')(router,connection,md5,mysql);
@@ -63,6 +63,10 @@ REST.prototype.configureExpress = function(connection) {
       require('./routes/Guest.js')(router,connection,md5,mysql);
       require('./routes/Sit.js')(router,connection,md5,mysql);
       require('./routes/Order.js')(router,connection,md5,mysql);
+      require('./routes/Allergy.js')(router,connection,md5,mysql);
+      require('./routes/ListAllergies.js')(router,connection,md5,mysql);
+      require('./routes/Nationality.js')(router,connection,md5,mysql);
+      require('./routes/Image.js')(router,connection,md5,mysql);
       //var rest_router = new rest(router,connection,md5);
       self.startServer();
 }

@@ -27,12 +27,26 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.post("/orders/active/station/table",function(req,res){
+        
+        var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ? AND ??.?? = ?";
+        var table = ["Sit","DishOrder","Sit","id_sit","DishOrder","id_sit","List_Stations","DishOrder","id_dish","List_Stations","id_dish","Dish","DishOrder","id_dish","Dish","id_dish","Sit", "id_table",req.body.id_table, "Sit","active", "true","List_Stations","id_station",req.body.id_station];
+        query = mysql.format(query,table);
+        connection.query(query,function(err,row){
+            if(err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+            } else {
+                res.json({"Error" : false, "Message" : "Success", "Orders" : row});
+            }
+        });
+    });
+
    router.post("/orders",function(req,res){
 
       for (var i = 0; i < req.body.ListIdDishes.length; i++) {
         
-        var query = "INSERT INTO ??(??,??,??,??,??,??) VALUES (?,?,?,?,?,?)";
-        var table = ["DishOrder","id_sit","id_dish", "id_client", "id_guest", "state", "sequence", req.body.id_sit, req.body.ListIdDishes[i].id_dish, req.body.id_client, req.body.id_guest,"Waiting",req.body.sequence];
+        var query = "INSERT INTO ??(??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
+        var table = ["DishOrder","id_sit","id_dish", "id_client", "id_guest", "state", "sequence","comment", req.body.id_sit, req.body.ListIdDishes[i].id_dish, req.body.id_client, req.body.id_guest,"Waiting",req.body.sequence, req.body.ListIdDishes[i].comment];
         query = mysql.format(query,table);
         connection.query(query,function(err,row){
             if(err) {
@@ -44,6 +58,8 @@ module.exports = function (router,connection,md5,mysql) {
       res.json({"Error" : false, "Message" : "Order Added !"});
       
   });
+
+
 
  router.put("/orders/pay",function(req,res){
     

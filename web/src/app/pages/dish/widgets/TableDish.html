@@ -1,40 +1,10 @@
-<!--<button type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new dish</button>
-<div class="table-responsive table-whaleat">
-  <table class="table">
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Tax</th>
-      <th>Taxed Price</th>
-      <th>Station</th>
-      <th>Sequence</th>
-      <th></th>
-    </tr>
-    <tr ng-repeat="dish in dishes">
-      <td></td>
-      <td>{{dish.name}}</td>
-      <td>{{dish.description}}</td>
-      <td>{{dish.price}} €</td>
-      <td>{{dish.tax}} %</td>
-      <td>{{dish.price + dish.price*(dish.tax/100)}} €</td>
-      <td>{{dish.id_station}}</td>
-      <td>{{dish.sequence}}</td>
-      <td>
-        <i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
-        <i ng-click="Removedish($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
-      </td>
-    </tr>
-  </table>
-</div>-->
-
 <div ba-panel
      ba-panel-class="tabs-panel xsmall-panel with-scroll">
-  <div class="panel-heading clearfix"><h3 class="panel-title">List of Dishes</h3></div>
+
   <uib-tabset class="tabs-right">
-    <uib-tab ng-repeat="type in type_dishes" heading="{{type.name}}">
-      <button type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new dish</button>
+    <uib-tab ng-repeat="type in type_dishes" heading="{{type.name}} ">
+      <div class="panel-heading clearfix marg-bot-20"><h3 class="panel-title">List of Dishes</h3></div>
+      <button type="button" ng-click="openModalCreate('app/pages/dish/widgets/ModalDishCreate.html', 'lg', null)" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new dish</button>
       <div class="table-responsive table-whaleat">
         <table class="table">
           <tr>
@@ -52,18 +22,19 @@
             <td></td>
             <td>{{dish.name}}</td>
             <td>{{dish.description}}</td>
-            <td>{{dish.price}} €</td>
+            <td>{{(dish.price / (1+(dish.tax/100))).toFixed(2)}} €</td>
             <td>{{dish.tax}} %</td>
-            <td>{{dish.price + dish.price*(dish.tax/100)}} €</td>
+            <td>{{dish.price}} €</td>
             <td><input type="checkbox" ng-model="dish.active" ng-checked="(dish.active === 'true')" /></td>
-            <td>{{dish.sequence}}</td>
+            <td>{{sequence[dish.sequence].name}}</td>
             <td>
-              <i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
-              <i ng-click="Removedish($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
+              <i data-toggle="modal" ng-click="openModalEdit('app/pages/dish/widgets/ModalDishEdit.html', 'lg', dish)" class="ion-ios-compose-outline iconList iconEdit"></i>
+              <i ng-click="removeDish(dish);" class="ion-ios-trash-outline iconList iconRemove"></i>
             </td>
           </tr>
         </table>
       </div>
+    
     
   </uib-tabset>
 </div>

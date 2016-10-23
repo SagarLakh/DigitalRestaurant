@@ -95,6 +95,37 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.post("/dishes",function(req,res){
+      var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?,?,?,?,?,?,?,?,?)";
+      var table = ["Dish","name","description","price","tax","id_restaurant","id_type_dish","sequence","img_path","active",
+      req.body.name,req.body.description,req.body.price,req.body.tax,req.body.id_restaurant,req.body.id_type_dish,req.body.sequence,req.body.img_path,req.body.active,];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query", "Success" : false});
+          } else {
+              res.json({"Error" : false, "Message" : "Dish Added correctly", "Success" : true, "Dish" : row});
+          }
+      });
+  });
+
+  router.put("/dishes",function(req,res){
+      var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+      var table = ["Dish","name",req.body.name,"description",req.body.description,"price",req.body.price,"tax",req.body.tax,
+      "id_restaurant",req.body.id_restaurant,"id_type_dish",req.body.id_type_dish,"sequence",req.body.sequence,"img_path",
+      req.body.img_path,"active",req.body.active,"id_dish", req.body.id_dish];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query", "Success" : false});
+          } else {
+              res.json({"Error" : false, "Message" : "Dish Updated correctly", "Success" : true, "Dish" : row});
+          }
+      });
+  });
+
   router.delete("/dishes/:id_dish",function(req,res){
       var query_select = "DELETE FROM ?? WHERE ??=?";
       var table = ["Dish","id_dish",req.params.id_dish];

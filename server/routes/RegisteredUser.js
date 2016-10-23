@@ -115,6 +115,19 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.post("/registeredusers/logout",function(req,res){
+      var query = "DELETE FROM ?? WHERE ??=? and ??=?";
+      var table = ["Token","id_registered_user",req.body.id_registered_user,"token",req.body.token];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Success" : true, "Message" : "Logout correctly done"});
+                    }
+      });
+  });
+
   router.post("/registeredusers/token",function(req,res){
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Registered_User","username",req.body.username];

@@ -32,10 +32,15 @@
           }
 
           elem.selectpicker({ dropupAuto: false, hideDisabled: true });
+            if (attrs.ngChange) {
+              elem.on('hidden.bs.select', function(e) {
+                // elem.change();
+              });
+          }
+
         }
       }
     };
   }
-
 
 })();

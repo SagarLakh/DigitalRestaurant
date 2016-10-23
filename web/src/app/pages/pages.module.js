@@ -17,6 +17,8 @@
     'BlurAdmin.pages.charts',
     'BlurAdmin.pages.maps',
     'BlurAdmin.pages.profile',*/
+    'BlurAdmin.pages.chefview',
+    'BlurAdmin.pages.form',
     'BlurAdmin.pages.menu',
     'BlurAdmin.pages.dish',
     'BlurAdmin.pages.chef',
