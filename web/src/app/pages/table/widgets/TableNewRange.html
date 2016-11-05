@@ -1,6 +1,24 @@
 
 <div class="row row-margin-bottom">
 	<div class="col-md-12 centered">
-		<i class="ion-ios-plus-outline xbig"></i>
+		<div class="col-xs-12">
+			<div class="form-group">
+	          <label for="input-name">Name</label>
+	          <input type="text" class="form-control" id="input-name" placeholder="Range Name" ng-model="newitem.name">
+	        </div>
+		</div>
+        <div class="col-xs-12 col-sm-6">
+        	<div class="form-group">
+	          <label for="input-name">From</label>
+	          <input type="number" class="form-control" id="input-name" placeholder="From" ng-model="newitem.nmin">
+	        </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+        	<div class="form-group">
+	          <label for="input-name">To</label>
+	          <input type="number" class="form-control" id="input-name" placeholder="To" ng-model="newitem.nmax">
+	        </div>
+        </div>
+        	<i ng-click="add(newitem)" class="add-range ion-ios-plus-outline xbig"></i>
 	</div>
 </div>

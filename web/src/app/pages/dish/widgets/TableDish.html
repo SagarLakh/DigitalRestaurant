@@ -25,7 +25,9 @@
             <td>{{(dish.price / (1+(dish.tax/100))).toFixed(2)}} €</td>
             <td>{{dish.tax}} %</td>
             <td>{{dish.price}} €</td>
-            <td><input type="checkbox" ng-model="dish.active" ng-checked="(dish.active === 'true')" /></td>
+            <td>
+              <switch ng-init="dish.active = dish.active == 'true'" color="primary" ng-model="dish.active" ng-change="ChangeStateActive(dish)"></switch>
+            
             <td>{{sequence[dish.sequence].name}}</td>
             <td>
               <i data-toggle="modal" ng-click="openModalEdit('app/pages/dish/widgets/ModalDishEdit.html', 'lg', dish)" class="ion-ios-compose-outline iconList iconEdit"></i>

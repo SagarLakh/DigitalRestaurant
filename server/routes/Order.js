@@ -29,8 +29,8 @@ module.exports = function (router,connection,md5,mysql) {
 
   router.post("/orders/active/station/table",function(req,res){
         
-        var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ? AND ??.?? = ?";
-        var table = ["Sit","DishOrder","Sit","id_sit","DishOrder","id_sit","List_Stations","DishOrder","id_dish","List_Stations","id_dish","Dish","DishOrder","id_dish","Dish","id_dish","Sit", "id_table",req.body.id_table, "Sit","active", "true","List_Stations","id_station",req.body.id_station];
+        var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ? AND ??.?? = ? ORDER BY ??.??";
+        var table = ["Sit","DishOrder","Sit","id_sit","DishOrder","id_sit","List_Stations","DishOrder","id_dish","List_Stations","id_dish","Dish","DishOrder","id_dish","Dish","id_dish","Sit", "id_table",req.body.id_table, "Sit","active", "true","List_Stations","id_station",req.body.id_station, "DishOrder", "sequence_order"];
         query = mysql.format(query,table);
         connection.query(query,function(err,row){
             if(err) {
@@ -58,6 +58,21 @@ module.exports = function (router,connection,md5,mysql) {
       res.json({"Error" : false, "Message" : "Order Added !"});
       
   });
+
+router.put("/orders/status",function(req,res){
+        var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+      var table = ["DishOrder","state",req.body.status, "id_order", req.body.id_order];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection.query(query,function(err,row){
+            if(err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+            } else {
+                res.json({"Error" : false, "Message" : "Updated the restaurant with id_restaurant = "+req.body.id_restaurant, "Restaurant" : row});
+            }
+        });
+    });
+
 
 
 

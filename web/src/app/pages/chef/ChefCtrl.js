@@ -12,9 +12,10 @@
   function ChefCtrl($stateParams, NotificationService, ProfileService, UserService, WorkerService, NationalityService, RestaurantService, ChefService, AdminService, $state, $http, $scope, $animateCss, $uibModal, $filter, fileReader) {
 
     $scope.chefs = {};
-    $scope.picture = $filter('profilePicture')('Nasta');
+    $scope.picture = $filter('appImage')('theme/no-photo.png');
     $scope.removePicture = function () {
       $scope.picture = $filter('appImage')('theme/no-photo.png');
+      $scope.item.img_path = null;
       $scope.noPicture = true;
     };
      
@@ -26,8 +27,10 @@
     };
 
     $scope.getFile = function () {
-      fileReader.readAsDataUrl($scope.file, $scope)
+      console.log(this.file);
+      fileReader.readAsDataUrl(this.file, $scope)
           .then(function (result) {
+            $scope.item.img_path = result;
             $scope.picture = result;
           });
     };
@@ -49,7 +52,7 @@
     };
 
     $scope.openModalCreate = function (page, size) {
-      $scope.item = {};
+      $scope.item = {img_path : $filter('appImage')('theme/no-photo.png')};
       $scope.item.id_restaurant = id_restaurant;
       console.log($scope.item);
       $scope.TheModal = $uibModal.open({
@@ -63,6 +66,9 @@
 
     $scope.openModalEdit = function (page, size, data) {
       var chef = JSON.parse(JSON.stringify(data));
+
+      if (chef.img_path === null) {$scope.picture = $filter('appImage')('theme/no-photo.png'); console.log($scope.picture);}
+      else $scope.picture = chef.img_path;
       $scope.item = chef;
       $scope.item.id_restaurant = id_restaurant;
       $scope.item.nat = {
@@ -112,14 +118,11 @@
 
       $scope.edit = function (item) {
       $scope.TheModal.close();
-      console.log("EDIT FUNC");
       console.log(item);
       UserService.editUser(item, function(User) {
-        console.log("POST USER SERVICE FUNC");
         item.id_nationality = item.nat.id_nationality;
         WorkerService.editWorker(item, function(Worker) {
           console.log(Worker);
-          console.log("POST WORKER SERVICE FUNC");
           console.log(item);
           ChefService.getChefsbyRestaurant(id_restaurant, function(Chefs) {
               $scope.chefs = Chefs;

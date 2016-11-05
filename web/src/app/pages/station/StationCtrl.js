@@ -9,7 +9,7 @@
     .controller('StationCtrl', StationCtrl);
 
   /** @ngInject */
-  function StationCtrl($stateParams, ProfileService, RestaurantService, StationService, AdminService, $state, $http, $scope) {
+  function StationCtrl($stateParams, ProfileService, NotificationService, RestaurantService, StationService, AdminService, $state, $http, $scope) {
 
     $scope.stations = {};
 
@@ -23,9 +23,14 @@
     };
 
 
-    $scope.RemoveStation = function(index){
-      var id_station = $scope.stations[index].id_station;
-      StationService.delete(id_station, function(result){
+    $scope.RemoveStation = function(station){
+      StationService.delete(station.id_station, function(result){
+        var data = {
+                  type : "success",
+                  msg: "Station deleted Successfully",
+                  title: "Station deleted"
+                };
+          NotificationService.openNotification(data);
           StationService.getStationsbyRestaurant(id_restaurant, function(Stations) {
             $scope.stations = Stations;
           });
@@ -43,6 +48,11 @@
       
       StationService.getStationsbyRestaurant(id_restaurant, function(Stations) {
         $scope.stations = Stations;
+        for( var i = 0; i < Stations.length; ++i) {
+          StationService.getDishesbyStation(i, Stations[i].id_station, function(result) {
+            $scope.stations[result.i].ndishes = result.ndishes;
+          });
+        }
         console.log($scope.stations);
       });
     }

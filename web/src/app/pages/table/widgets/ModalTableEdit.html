@@ -1,0 +1,40 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h4 class="modal-title">Edit Range</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="input-name">Name</label>
+          <input type="text" class="form-control" id="input-name" placeholder="Restaurant Name" ng-model="item.name">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="input-from">From</label>
+          <input type="number" class="form-control" id="input-from" placeholder="From" ng-model="item.nmin">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="input-to">To</label>
+          <input type="number" class="form-control" id="input-to" placeholder="To" ng-model="item.nmax">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="edit(item);">Save Changes</button>
+  </div>
+</div>
+
+
+
+
+
+

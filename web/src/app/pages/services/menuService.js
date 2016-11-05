@@ -5,7 +5,7 @@
     .service('MenuService',menuService);
 
 
-    function menuService($http) {
+    function menuService($http, ListDishesService) {
 
       return {
         getMenusbyRestaurant : function(id_restaurant, callback) {
@@ -50,6 +50,29 @@
           console.log(data);
           $http.put(api.url + '/menus', data).then(
               function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+        add : function(data, callback) {
+          
+          console.log(data);
+          $http.post(api.url + '/menus', data).then(
+              function(result) {
+                var id_menu = result.data.insertId;
+                for (var dish in data.dishes) {
+                  if (dish.checked == true) {
+                    dish.id_menu = id_menu;
+                    ListDishesService.add(dish, function(ListDish) {
+                    });
+                  }
+                }
+                
                 callback(result.data);
               },
               function(error) {

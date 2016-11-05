@@ -126,6 +126,7 @@ div.panel-new-range {
 	-moz-transition: all 0.2s;
 	-o-transition: all 0.2s;
 	transition: all 0.2s;
+	color: #209b8e;
 }
 
 div.panel-new-range:hover{
@@ -136,7 +137,7 @@ div.panel-new-range:hover i.ion-ios-plus-outline{
 	-ms-transform: rotate(45deg); /* IE 9 */
     -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
     transform: rotate(45deg);
-    color: #209b8e;
+    
 }
 
 .items-range {
@@ -210,4 +211,18 @@ span.label {
 
 .table-panel {
 	height: auto !important;
+}
+
+.add-range:hover {
+	color: #F64747 !important;
+}
+
+.change-userpic {
+	color: white;
+}
+
+.undo-button-wrapper {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
 }

@@ -3,7 +3,7 @@
     <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
       <em class="ion-ios-close-empty sn-link-close"></em>
     </button>
-    <h4 ng-if="modaltype == 'edit'" class="modal-title">Create a new menu</h4>
+    <h4 class="modal-title">Create a new menu</h4>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -13,14 +13,14 @@
                         <form name="response.settings" novalidate>
                             <div class="row">
                                 <div class="col-sm-3">
-                                  <div class="form-group">
-                                    <label for="inputFirstName">Name</label>
-                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Menu Name" ng-model="item.name">
+                                  <div class="form-group has-feedback" ng-class="{'has-error': item.name.$invalid && (item.name.$dirty || item.name.$submitted)}">
+                                    <label for="input_name">Name</label>
+                                    <input type="text" class="form-control" id="input_name" placeholder="Menu Name" ng-model="item.name">
                                   </div>
                                 </div>
                                 <div class="col-sm-3">
                                   <div class="form-group">
-                                    <label for="inputLastName"><input ng-model="item.fixed_price" type="checkbox" id="inputfixedprice"> Fixed Price</label>
+                                    <label for="input_fixedprice"><input ng-model="item.fixed_price" type="checkbox" id="inputfixedprice"> Fixed Price</label>
                                     <div class="input-group">
                                       <input ng-model="item.price" type="number" class="form-control" id="input-price" ng-disabled="!(item.fixed_price)" placeholder="Price">
                                       <span class="input-group-addon addon-right input-group-addon-primary">€</span>
@@ -30,7 +30,7 @@
 
                                 <div class="col-sm-3">
                                   <div class="form-group">
-                                    <label for="inputFirstName">Do you want to make a copy?</label>
+                                    <label for="input_check_copy">Do you want to make a copy?</label>
                                     <select class="form-control selectpicker with-search" data-live-search="true" title="Menus" selectpicker
                                       ng-model="menu"
                                       ng-options="menu as menu.name for menu in menus"
@@ -124,8 +124,48 @@
                             </div>
                         </form>
                     </ba-wizard-step>
-                    <ba-wizard-step title="Dishes" form="response.dishes">
-                        
+                    <ba-wizard-step title="Dishes" form="response.create_list_dishes">
+                      <div class="col-xs-12">
+                        <div class="horizontal-scroll">
+                        <div class="form-group select-page-size-wrap ">
+                          <label>Rows on page
+                            <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+                                    ng-model="TablePageSize" ng-options="i for i in [5,10,15]">
+                            </select>
+                          </label>
+                        </div>
+                        <table class="table" st-table="item.create_list_dishes">
+                          <thead>
+                          <tr class="sortable ">
+                            <th><input ng-model="allchecked" type="checkbox"></th>
+                            <th st-sort="name">Name</th>
+                            <th st-sort="name_type">Type_dish</th>
+                          </tr>
+                          <tr>
+                            <th></th>
+                            <th><input st-search="name" placeholder="Search Dish Name" class="input-sm form-control search-input"
+                                       type="search"/></th>
+                            <th><input st-search="name_type" placeholder="Search Type Dish" class="input-sm form-control search-input"
+                                       type="search"/></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr ng-repeat="dish in item.create_list_dishes">
+                            <td><input ng-model="dish.checked" ng-checked="dish.checked || allchecked" type="checkbox"></td>
+                            <td>{{dish.name}}</td>
+                            <td>{{dish.name_type}}</td>
+                          </tr>
+                          </tbody>
+                          <tfoot>
+                          <tr>
+                            <td colspan="6" class="text-center">
+                              <div st-pagination="" st-items-by-page="TablePageSize" st-displayed-pages="5"></div>
+                            </td>
+                          </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
                     </ba-wizard-step>
                 </ba-wizard>
         </div>
@@ -134,6 +174,6 @@
 
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="$dismiss()">Create</button>
+    <button type="button" class="btn btn-primary" ng-click="add(item)">Create</button>
   </div>
 </div>

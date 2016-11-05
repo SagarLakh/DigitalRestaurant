@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new Restaurant</button>
+<button ng-click="openModalCreate('app/pages/restaurant/widgets/ModalRestaurantCreate.html', 'lg', null)" type="button" class="btn btn-primary"><i class="ion-ios-plus-empty"></i> Create a new Restaurant</button>
 <div class="table-responsive table-whaleat">
   <table class="table">
     <tr>
@@ -13,7 +13,7 @@
     <tr ng-repeat="restaurant in restaurants">
       <td>
         <i ng-if="active_restaurant == restaurant.id_restaurant" class="ion-ios-eye iconList iconEyeActive iconEye"></i>
-        <i ng-click="ChangeActiveRestaurant($index)" ng-if="active_restaurant != restaurant.id_restaurant" class="ion-ios-eye-outline iconList iconEye"></i>
+        <i ng-click="ChangeActiveRestaurant(restaurant)" ng-if="active_restaurant != restaurant.id_restaurant" class="ion-ios-eye-outline iconList iconEye"></i>
       </td>
       <td>{{restaurant.name}}</td>
       <td>{{restaurant.address}}</td>
@@ -21,8 +21,8 @@
       <td>{{restaurant.phone1}}</td>
       <td>{{restaurant.phone2}}</td>
       <td>
-        <i data-toggle="modal" ng-click="open('app/pages/ui/modals/modalTemplates/largeModal.html', 'lg')" class="ion-ios-compose-outline iconList iconEdit"></i>
-        <i ng-click="RemoveRestaurant($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
+        <i data-toggle="modal" ng-click="openModalEdit('app/pages/restaurant/widgets/ModalRestaurantEdit.html', 'lg', restaurant)" class="ion-ios-compose-outline iconList iconEdit"></i>
+        <i ng-click="RemoveRestaurant(restaurant)" class="ion-ios-trash-outline iconList iconRemove"></i>
       </td>
     </tr>
   </table>

@@ -82,6 +82,19 @@ module.exports = function (router,connection,md5,mysql) {
       });
   });
 
+  router.get("/dishes/restaurant/:id_restaurant/typedish",function(req,res){
+      var query = "SELECT Dish.*, Type_Dish.name AS name_type FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? ORDER BY ??.??";
+      var table = ["Dish","Type_Dish","Dish","id_type_dish","Type_Dish","id_type_dish", "Dish","id_restaurant",req.params.id_restaurant, "Dish","id_type_dish"];
+      query = mysql.format(query,table);
+      connection.query(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Dishes" : row});
+          }
+      });
+  });
+
   router.get("/dishes/type_dish/:id_type_dish",function(req,res){
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Dish","id_type_dish",req.params.id_type_dish];
@@ -139,5 +152,31 @@ module.exports = function (router,connection,md5,mysql) {
           }
       });
   });
+
+  router.put("/dishes/:id_dish/active",function(req,res){
+        var query = "SELECT * FROM ?? WHERE ?? = ?";
+        var table = ["Dish","id_dish",req.params.id_dish];
+        query = mysql.format(query,table);
+        connection.query(query,function(err,row){
+            if(err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+            } else {
+
+                if (row[0].active == 'true') var change = 'false';
+                else var change = 'true';
+                var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
+                var table = ["Dish","active", change, "id_dish",req.params.id_dish];
+                query = mysql.format(query,table);
+                connection.query(query,function(err,row){
+                    if(err) {
+                        res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+                    } else {
+                        res.json({"Error" : false, "Message" : "Updated the active for dish with id_dish = "+req.params.id_dish});
+                    }
+                });
+            }
+        });
+    });
+
 
 }

@@ -127,15 +127,15 @@ module.exports = function (router,connection,md5,mysql) {
 
 
   router.post("/restaurants",function(req,res){
-      var query = "INSERT INTO ??(??,??,??,??,??) VALUES (?,?,?,?,?)";
-      var table = ["Restaurant","name","email","phone1","phone2","address",req.body.name,req.body.email,req.body.phone1,req.body.phone2,req.body.address];
+      var query = "INSERT INTO ??(??,??,??,??,??, ??) VALUES (?,?,?,?,?, ?)";
+      var table = ["Restaurant","name","email","phone1","phone2","address","img_path",req.body.name,req.body.email,req.body.phone1,req.body.phone2,req.body.address, req.body.img_path];
       query = mysql.format(query,table);
       connection.query(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding User)", "Error" : err});
           } else {
             console.log(row);
-            res.json({"Error" : false, "Message" : "Restaurant Added !"});
+            res.json({"Error" : false, "Message" : "Restaurant Added !", "Restaurant": row});
           }
       });
   });
@@ -155,14 +155,14 @@ module.exports = function (router,connection,md5,mysql) {
   });
 
   router.put("/restaurants",function(req,res){
-        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
-        var table = ["Restaurant","name",req.body.name,"email",req.body.email,"phone1",req.body.phone1,"phone2",req.body.phone2,"address",req.body.address,"id_restaurant",req.body.id_restaurant];
+        var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+        var table = ["Restaurant","name",req.body.name,"img_path", req.body.img_path,"email",req.body.email,"phone1",req.body.phone1,"phone2",req.body.phone2,"address",req.body.address,"id_restaurant",req.body.id_restaurant];
         query = mysql.format(query,table);
         connection.query(query,function(err,row){
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {
-                res.json({"Error" : false, "Message" : "Updated the restaurant with id_restaurant = "+req.body.id_restaurant});
+                res.json({"Error" : false, "Message" : "Updated the restaurant with id_restaurant = "+req.body.id_restaurant, "Restaurant" : row});
             }
         });
     });

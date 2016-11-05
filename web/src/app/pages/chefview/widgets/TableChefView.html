@@ -11,7 +11,7 @@
       <td>{{order.name}}</td>
       <td></td>
       <td>
-       <span class="label label-{{(order.state).replace(' ','-')}}">{{order.state}}</span>
+       <span ng-click="changeNextStatus(order)" class="label label-{{(order.state).replace(' ','-')}}">{{order.state}}</span>
       </td>
     </tr>
   </table>

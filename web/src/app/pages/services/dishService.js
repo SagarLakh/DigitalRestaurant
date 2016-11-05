@@ -11,7 +11,7 @@
       return {
         getDishesbyRestaurant : function(id_restaurant, callback) {
           var data = {};
-          $http.get(api.url + '/dishes/restaurant/' + id_restaurant, data).then(
+          $http.get(api.url + '/dishes/restaurant/' + id_restaurant + '/typedish', data).then(
               function(result) {
                 callback(result.data.Dishes);
               },
@@ -37,11 +37,24 @@
             );
         },
 
+        changeStateActive : function(id_dish, callback) {
+          var data = {};
+          $http.put(api.url + '/dishes/' + id_dish + '/active', data).then(
+              function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         addDish : function(dish, callback) {
           dish.id_type_dish = {};
           dish.active = 'true';
           if (dish.allergies == undefined) dish.allergies = {};
-          dish.sequence = dish.seq.id_sequence;
+          dish.sequence = dish.sequence;
           if(dish.newtype == null) {
             dish.id_type_dish = dish.type.id_type_dish;
             console.log(dish);

@@ -22,6 +22,32 @@
             );
         },
 
+        add: function(data, callback) {
+          $http.post(api.url + '/ranges', data).then(
+              function(result) {
+                callback(result.data.Range);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+        delete: function(id_range, callback) {
+          var data = {};
+          $http.delete(api.url + '/ranges/' + id_range, data).then(
+              function(result) {
+                callback(result.data.Range);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+
         getMessagesByLabel : function(label){
           return messages.filter(function(m){
             return m.labels.indexOf(label) != -1;

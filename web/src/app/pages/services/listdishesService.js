@@ -2,19 +2,17 @@
   'use strict';
 
   angular.module('BlurAdmin.common.services')
-    .service('OrderService',orderService);
+    .service('ListDishesService',listdishesService);
 
 
-    function orderService($http) {
+    function listdishesService($http) {
 
       return {
-        getActiveOrdersbyStationAndTable : function(data, callback) {
-          var return_var = {};
-          $http.post(api.url + '/orders/active/station/table', data).then(
+        getListDishesbyRegisteredUser : function(id_registered_user, callback) {
+          var data = {};
+          $http.get(api.url + '/listdishes/registereduser/' + id_registered_user, data).then(
               function(result) {
-                return_var.i = data.iteration;
-                return_var.Orders = result.data.Orders;
-                callback(return_var);
+                callback(result.data.ListDishes[0]);
               },
               function(error) {
                 console.log(error);
@@ -23,10 +21,10 @@
             );
         },
 
-        changeStatus : function(data, callback) {
-          $http.put(api.url + '/orders/status', data).then(
+        add : function(data, callback) {
+          $http.post(api.url + '/listdishes', data).then(
               function(result) {
-                callback(result.data);
+                callback(result.data.ListDishes);
               },
               function(error) {
                 console.log(error);

@@ -9,7 +9,7 @@
     .controller('DishCtrl', DishCtrl);
 
   /** @ngInject */
-  function DishCtrl($stateParams, $state, $http, $scope, $filter, fileReader, DishService, TypeDishService, ProfileService, AllergyService, AdminService, RestaurantService, $uibModal) {
+  function DishCtrl($stateParams, $state, $http, $scope, $filter, fileReader, NotificationService, DishService, TypeDishService, ProfileService, AllergyService, AdminService, RestaurantService, $uibModal) {
     $scope.dishes, $scope.type_dishes, $scope.restaurant= {};
     $scope.sequence = [
                       {"name":"Drink", "id_sequence":0},
@@ -20,10 +20,10 @@
                       {"name":"Dessert", "id_sequence":5}
                   ];
 
-    $scope.picture = $filter('appImage')('theme/no-photo.png');
+    $scope.picture = $filter('appImage')('theme/no-photo-dish.png');
 
     $scope.removePicture = function () {
-      $scope.picture = $filter('appImage')('theme/no-photo.png');
+      $scope.picture = $filter('appImage')('theme/no-photo-dish.png');
       $scope.item.img_path = null;
       $scope.noPicture = true;
     };
@@ -40,6 +40,12 @@
             $scope.item.img_path = result;
             $scope.picture = result;
           });
+    };
+
+    $scope.ChangeStateActive = function(dish){
+      console.log("state");
+      DishService.changeStateActive(dish.id_dish, function(result) {
+      });
     };
 
     $scope.add = function (item) {
@@ -92,7 +98,7 @@
     };
 
     $scope.openModalCreate = function (page, size) {
-      $scope.item = {img_path : $filter('appImage')('theme/no-photo.png')}; 
+      $scope.item = {img_path : $filter('appImage')('theme/no-photo-dish.png')}; 
       $scope.item.id_restaurant = id_restaurant;
       console.log($scope.item);
       $scope.TheModal = $uibModal.open({
@@ -110,7 +116,7 @@
       var item = JSON.parse(JSON.stringify(data));
       AllergyService.getAllergiesByDish(item.id_dish, function(Allergies) {
         item.allergies = Allergies;
-        if (item.img_path === null) {$scope.picture = item.img_path= $filter('appImage')('theme/no-photo.png'); console.log($scope.picture);}
+        if (item.img_path === null) {$scope.picture = item.img_path= $filter('appImage')('theme/no-photo-dish.png'); console.log($scope.picture);}
         else {$scope.picture = item.img_path;}
         $scope.item = item;
         $scope.item.id_restaurant = id_restaurant;

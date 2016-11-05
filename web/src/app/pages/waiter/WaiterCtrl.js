@@ -95,7 +95,6 @@
           console.log(Worker);
           console.log(item);
           item.id_worker = Worker.insertId;
-          console.log("PRE WAITERSERVICE");
           console.log(item);
           WaiterService.addWaiter(item, function(Waiter) {
             console.log(Waiter);
@@ -117,12 +116,16 @@
       $scope.edit = function (item) {
       $scope.TheModal.close();
       console.log(item);
-      
       UserService.editUser(item, function(User) {
         item.id_nationality = item.nat.id_nationality;
         WorkerService.editWorker(item, function(Worker) {
           console.log(Worker);
           console.log(item);
+          var data = {
+                  type : "success",
+                  msg: item.name + " have been changed correctly :)",
+                  title: "Waiter changed"
+            };
           WaiterService.getWaitersbyRestaurant(id_restaurant, function(Waiters) {
               $scope.waiters = Waiters;
               console.log($scope.waiters);

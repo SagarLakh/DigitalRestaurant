@@ -10,9 +10,11 @@
 
 
   /** @ngInject */
-  function MenuCtrl($stateParams, baSidebarService, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope, $uibModal) {
+  function MenuCtrl($stateParams, DishService, baSidebarService, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope, $uibModal) {
     
-    $scope.menus = {};
+    $scope.menus = $scope.dishes = {};
+    var list_dishes_copy = {};
+    $scope.TablePageSize = 5;
     $scope.sequence = [
                       {id_type_dish : 1, name : 'Drink'},
                       {id_type_dish : 2, name : 'Appetizer'},
@@ -52,18 +54,21 @@
     $scope.onMenuImportSelect = function(menu) {
       var item = angular.copy(menu);
       parseDataToModal(item);
+      var aux = angular.copy($scope.item.create_list_dishes);
       $scope.item = item;
+      $scope.item.create_list_dishes = aux;
     };
 
     $scope.openModalCreate = function (page, size) {
       $scope.item = {};
-      
+      $scope.item.create_list_dishes = angular.copy($scope.dishes);
+      list_dishes_copy = $scope.item.create_list_dishes;
+      console.log($scope.item);
       var response = this;
 
       response.settings = {};
       response.dishes = {};
-
-      console.log($scope.item);
+      
       $scope.TheModal = $uibModal.open({
         animation: true,
         templateUrl: page,
@@ -98,6 +103,21 @@
           });
       });
     };
+
+    $scope.add = function (item) {
+      item.listdishes = list_dishes_copy;
+      $scope.TheModal.close();
+      console.log(item);
+      parseDataToDB(item);
+      console.log(item);
+      /*MenuService.add(item, function(Menu) {
+        console.log(Menu);
+        MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
+            $scope.menus = Menus;
+          });
+      });*/
+    };
+
 
 
     $scope.RemoveMenu = function(index){
@@ -155,6 +175,10 @@
       MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
         $scope.menus = Menus;
         console.log(Menus);
+        DishService.getDishesbyRestaurant(id_restaurant, function(Dishes) {
+                  $scope.dishes = Dishes;
+                  console.log($scope.dishes);
+              });
       });
     }
     else {
@@ -167,6 +191,10 @@
               $scope.menus = Menus;
               $scope.active = false;
               console.log(Menus);
+              DishService.getDishesbyRestaurant(id_restaurant, function(Dishes) {
+                  $scope.dishes = Dishes;
+                  console.log($scope.dishes);
+              });
             });
           });
       });
