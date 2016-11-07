@@ -35,6 +35,20 @@
             );
         },
 
+        delete: function(id_order, callback) {
+          var data = {};
+          $http.delete(api.url + '/orders/' + id_order, data).then(
+              function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
+
         getMessagesByLabel : function(label){
           return messages.filter(function(m){
             return m.labels.indexOf(label) != -1;

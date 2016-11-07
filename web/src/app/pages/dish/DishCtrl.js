@@ -60,6 +60,12 @@
               });
             
           };
+          var data = {
+                  type : "success",
+                  msg: item.name+" added successfully :(",
+                  title: "Dish created"
+          };
+          NotificationService.openNotification(data);
        });
       });
     };
@@ -74,8 +80,15 @@
              DishService.getDishesbyTypeDish(i, $scope.type_dishes[i].id_type_dish, function(Dishes) {
                   $scope.type_dishes[Dishes.i].dishes = Dishes.Dishes;
               });
+             
             
           };
+          var data = {
+                  type : "success",
+                  msg: item.name + " changed successfully :(",
+                  title: "Dish uploaded"
+          };
+          NotificationService.openNotification(data);
        });
       });
     };

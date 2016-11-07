@@ -9,24 +9,18 @@
     .controller('ChefViewCtrl', ChefViewCtrl);
 
   /** @ngInject */
-  function ChefViewCtrl($stateParams, ProfileService, OrderService, RestaurantService, SitService, StationService, AdminService, $state, $http, $scope, baSidebarService) {
+  function ChefViewCtrl($stateParams, $uibModal, $interval, ProfileService, OrderService, RestaurantService, SitService, StationService, AdminService, $state, $http, $scope, baSidebarService) {
     $scope.tables, $scope.sits = {};
     baSidebarService.MenuCollapsed('close');
     var id_station = $stateParams.id_station;
-    var stack = [];
-    /*data = {
-      id_station = id_station,
-      id_table = id_table
-    }*/
-    
-    /*$scope.RemoveStation = function(index){
-      var id_station = $scope.stations[index].id_station;
-      StationService.delete(id_station, function(result){
-          StationService.getStationsbyRestaurant(id_restaurant, function(Stations) {
-            $scope.stations = Stations;
-          });
-      });
-    };*/
+    $scope.stack = [];
+
+    function checkIfSame (lastorder, neworder) {
+      if (lastorder.id_dish != neworder.id_dish) return false;
+      if (lastorder.comment != neworder.comment) return false;
+      if (lastorder.sequence_order != neworder.sequence_order) return false;
+      return true;
+    };
 
     function getSitsWithOrders() {
       SitService.getActiveSits(id_restaurant, function(Tables) {
@@ -37,11 +31,45 @@
             id_station : id_station,
             iteration : i
           }
-
           OrderService.getActiveOrdersbyStationAndTable(data, function(Orders) {
               $scope.tables[Orders.i].orders = Orders;
-              console.log($scope.tables);
+              var count = 1;
+              var length = $scope.tables[Orders.i].orders.Orders.length;
+              var lastorder = $scope.tables[Orders.i].orders.Orders[0];
+              lastorder.count = count;
+              for (var j = 1; j < $scope.tables[Orders.i].orders.Orders.length; j++) {
+                if (checkIfSame(lastorder, $scope.tables[Orders.i].orders.Orders[j])){
+                  ++count; 
+                  //$scope.tables[Orders.i].orders.Orders.splice(j, 1);
+                }
+                else {
+
+                  lastorder.count = count;
+                  lastorder = $scope.tables[Orders.i].orders.Orders[j];
+                  count = 1;
+                  lastorder.count = count;
+                  console.log('diferente');
+                }
+              };
+              console.log($scope.tables[Orders.i].orders.Orders);
             });
+        };
+      });
+    };
+
+    function updateOrders () {
+      SitService.getActiveSits(id_restaurant, function(Tables) {
+        if ($scope.tables.length != Tables.length) $scope.tables = Tables;
+        var data = {};
+        for(var i = 0; i < $scope.tables.length; ++i) {
+          data = {
+              id_table : $scope.tables[i].id_table,
+              id_station : id_station,
+              iteration : i
+            }
+          OrderService.getActiveOrdersbyStationAndTable(data, function(Orders) {
+                $scope.tables[Orders.i].orders = Orders;
+              });
         };
       });
     };
@@ -54,28 +82,47 @@
         status: status
       };
       OrderService.changeStatus(data, function(result) {
-              getSitsWithOrders();
+              updateOrders();
             });
     };
 
+    $scope.openModalComment = function (page, size, comment) {
+      $scope.comment = comment;
+      $scope.TheModal = $uibModal.open({
+        animation: true,
+        templateUrl: page,
+        size: size,
+        scope: $scope
+        
+      });
+    };
+
+    $scope.removeCancelledOrder = function(order) {
+      if (order.state == 'Cancelled'){
+        OrderService.delete(order.id_order, function(Orders) {
+          updateOrders();
+        });
+      }
+      
+    };
+
     $scope.undo = function() {
-      if(stack.length != 0) {
-        doTheChange(stack[stack.length-1].id_order,stack[stack.length-1].state);
-        stack.pop();
+      if($scope.stack.length != 0) {
+        doTheChange($scope.stack[$scope.stack.length-1].id_order,$scope.stack[$scope.stack.length-1].state);
+        $scope.stack.pop();
       }
     }
 
     $scope.changeNextStatus = function(order){
-      stack.push(order);
-      console.log(stack);
-      if(order.state == 'Changed') doTheChange(order.id_order,'Waiting');
-      else if(order.state == 'Waiting') doTheChange(order.id_order,'In Process');
-      else if(order.state == 'In Process') doTheChange(order.id_order,'Ready');
-      else if(order.state == 'Ready') doTheChange(order.id_order,'Payed');
+
+      if(order.state == 'Changed') {doTheChange(order.id_order,'Waiting');$scope.stack.push(order);}
+      else if(order.state == 'Waiting') {doTheChange(order.id_order,'In Process');$scope.stack.push(order);}
+      else if(order.state == 'In Process') {doTheChange(order.id_order,'Ready');$scope.stack.push(order);}
       
     };
     
     console.log('Chef View Controller');
+
     var username = ProfileService.getCookie("username");
     var token = ProfileService.getCookie("token_id");
     var uid = ProfileService.getCookie("uid");
@@ -97,6 +144,7 @@
       
       
     };
+    //$interval(updateOrders, 3000);
 
     
    

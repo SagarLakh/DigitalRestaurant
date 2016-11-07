@@ -83,7 +83,7 @@ router.put("/orders/status",function(req,res){
     for (var i = 0; i < req.body.ListIdOrders.length; i++) {
       var orders = [];
       var query = "UPDATE ?? SET ?? = ? WHERE ?? = ?";
-      var table = ["DishOrder","state","Payed", "id_order", req.body.ListIdOrders[i].id_order];
+      var table = ["DishOrder","payed","true", "id_order", req.body.ListIdOrders[i].id_order];
       console.log(req.body.ListIdOrders[i].id_order);
       query = mysql.format(query,table);
       console.log(query);
@@ -97,6 +97,20 @@ router.put("/orders/status",function(req,res){
     };
     res.json({"Error" : false, "Message" : "Orders Payed!"});
       
+  });
+
+ router.delete("/orders/:id_order",function(req,res){
+      var query_select = "DELETE FROM ?? WHERE ??=?";
+      var table = ["DishOrder","id_order",req.params.id_order];
+      query_select = mysql.format(query_select,table);
+      connection.query(query_select,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query select restaurant"});
+          }
+          else {
+              res.json({"Error" : false, "Message" : "Success, order with id_menu = "+req.params.id_order+" deleted"});
+          }
+      });
   });
 
 }

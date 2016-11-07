@@ -1,12 +1,15 @@
 <div class="widgets">
 
   <div class="row">
-    <div ng-repeat="table in tables" class="col-lg-6 col-md-6">
-      <div ba-panel ba-panel-title-chef="{{table.id_table_restaurant}}" ba-panel-class="with-scroll table-panel">
-        <div include-with-scope="app/pages/chefview/widgets/TableChefView.html"></div>
-      </div>
+    <div ng-if="table.orders.Orders.length != 0" ng-repeat="table in tables" class="col-lg-6 col-md-6">
+    	<div ba-panel ba-panel-title-chef="{{table.id_table_restaurant}}" ba-panel-class="with-scroll table-panel">
+			<div class="table-responsive table-whaleat table-chefview">
+			  <div include-with-scope="app/pages/chefview/widgets/TableChefView.html"></div>
+			</div>
+		</div>
+        
     </div>
   </div>
-  <div class="undo-button-wrapper"><button ng-click="undo()" class="btn btn-primary btn-lg"><i class="ion-ios-undo-outline"></i> Undo</button></div>
+  <div ng-disabled="stack.length == 0" class="undo-button-wrapper"><button ng-click="undo()" class="btn btn-primary btn-lg"><i class="ion-ios-undo-outline"></i> Undo</button></div>
 
 </div>

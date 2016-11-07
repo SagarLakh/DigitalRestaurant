@@ -14,7 +14,7 @@
       <td>
           <div ng-repeat="n in [0,1,2,3,4,5,6]" ng-class="{true: 'dayBoxGreen', false: 'dayBoxGrey'}[menu.listDays[n] == 1]" ng-click="ChangeAvailabilityDay(n, menu)" class="dayBox"></div> 
       </td>
-      <td>{{menu.price}}<span ng-if="!(menu.price == null)">€</span></td>
+      <td>{{menu.price}}<span ng-if="!(menu.price == null)">€</span><span ng-if="menu.price == null">No fixed price</span></td>
       <td>
         <i ng-if="menu.moment_day[0] == 1" class="ion-ios-sunny-outline iconList iconSun"></i>
         <i ng-if="menu.moment_day[1] == 1" class="ion-ios-moon-outline iconList iconMoon"></i>
@@ -23,6 +23,7 @@
         <switch ng-init="menu.active = menu.active == 'true'" color="primary" ng-model="menu.active" ng-change="ChangeStateActive($index)"></switch>
       <!--<input ng-change="ChangeStateActive($index)" type="checkbox" ng-model="menu.active"  /></td>-->
       <td>
+        <i data-toggle="modal" ng-click="openModalEdit('app/pages/menu/widgets/ModalMenuEditDishes.html', 'lg', menu)" class="icon icon-hot-meal iconList iconDish"></i>
         <i data-toggle="modal" ng-click="openModalEdit('app/pages/menu/widgets/ModalMenuEditDishes.html', 'lg', menu)" class="ion-ios-compose-outline iconList iconEdit"></i>
         <i ng-click="RemoveMenu($index)" class="ion-ios-trash-outline iconList iconRemove"></i>
       </td>

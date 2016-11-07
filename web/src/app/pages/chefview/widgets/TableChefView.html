@@ -1,18 +1,19 @@
-<div class="table-responsive table-whaleat table-chefview">
+
   <table class="table">
     <tr>
       <th></th>
       <th>Dish</th>
       <th>Quantity</th>
       <th>State</th>
+      <th></th>
     </tr>
     <tr class="sequence-class-{{order.sequence_order}} line-{{(order.state).replace(' ','-')}}" ng-repeat="order in table.orders.Orders">
-      <td ></td>
+      <td><i data-toggle="modal" ng-click="openModalComment('app/pages/chefview/widgets/ModalComment.html', 'sm', order.comment)" ng-if="order.comment != null" class="ion-star iconComment"></i></td>
       <td>{{order.name}}</td>
-      <td></td>
+      <td>{{order.count}}</td>
       <td>
        <span ng-click="changeNextStatus(order)" class="label label-{{(order.state).replace(' ','-')}}">{{order.state}}</span>
       </td>
+      <td><i ng-if="order.state == 'Cancelled'" ng-click="removeCancelledOrder(order)" class="ion-ios-trash-outline iconList iconRemove"></i></td>
     </tr>
   </table>
-</div>

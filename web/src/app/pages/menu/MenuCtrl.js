@@ -10,7 +10,7 @@
 
 
   /** @ngInject */
-  function MenuCtrl($stateParams, DishService, baSidebarService, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope, $uibModal) {
+  function MenuCtrl($stateParams, DishService, NotificationService, baSidebarService, ProfileService, RestaurantService, MenuService, AdminService, $state, $http, $scope, $uibModal) {
     
     $scope.menus = $scope.dishes = {};
     var list_dishes_copy = {};
@@ -68,7 +68,6 @@
 
       response.settings = {};
       response.dishes = {};
-      
       $scope.TheModal = $uibModal.open({
         animation: true,
         templateUrl: page,
@@ -98,6 +97,12 @@
       console.log(item);
       MenuService.editMenu(item, function(Menu) {
         console.log(Menu);
+        var data = {
+                  type : "success",
+                  msg: "Menu changed successfully :(",
+                  title: "Menu uploaded"
+          };
+          NotificationService.openNotification(data);
         MenuService.getMenusbyRestaurant(id_restaurant, function(Menus) {
             $scope.menus = Menus;
           });
