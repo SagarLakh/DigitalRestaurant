@@ -14,6 +14,7 @@
     baSidebarService.MenuCollapsed('close');
     var id_station = $stateParams.id_station;
     $scope.stack = [];
+    var refresh;
 
     function checkIfSame (lastorder, neworder) {
       if (lastorder.id_dish != neworder.id_dish) return false;
@@ -35,15 +36,21 @@
               $scope.tables[Orders.i].orders = Orders;
               var count = 1;
               var length = $scope.tables[Orders.i].orders.Orders.length;
+              $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
               var lastorder = $scope.tables[Orders.i].orders.Orders[0];
+              
+              console.log($scope.tables[Orders.i].orders.Orders[0].listIds);
               lastorder.count = count;
               for (var j = 1; j < $scope.tables[Orders.i].orders.Orders.length; j++) {
+                $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
                 if (checkIfSame(lastorder, $scope.tables[Orders.i].orders.Orders[j])){
-                  ++count; 
-                  //$scope.tables[Orders.i].orders.Orders.splice(j, 1);
+                  ++count;
+                  lastorder.listIds.push($scope.tables[Orders.i].orders.Orders[j].id_order); 
+                  $scope.tables[Orders.i].orders.Orders.splice(j, 1);
+                  --j;
                 }
                 else {
-
+                  $scope.tables[Orders.i].orders.Orders[j].listIds = [$scope.tables[Orders.i].orders.Orders[j].id_order];
                   lastorder.count = count;
                   lastorder = $scope.tables[Orders.i].orders.Orders[j];
                   count = 1;
@@ -68,22 +75,50 @@
               iteration : i
             }
           OrderService.getActiveOrdersbyStationAndTable(data, function(Orders) {
-                $scope.tables[Orders.i].orders = Orders;
-              });
+              $scope.tables[Orders.i].orders = Orders;
+              var count = 1;
+              var length = $scope.tables[Orders.i].orders.Orders.length;
+              $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
+              var lastorder = $scope.tables[Orders.i].orders.Orders[0];
+              
+              console.log($scope.tables[Orders.i].orders.Orders[0].listIds);
+              lastorder.count = count;
+              for (var j = 1; j < $scope.tables[Orders.i].orders.Orders.length; j++) {
+                $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
+                if (checkIfSame(lastorder, $scope.tables[Orders.i].orders.Orders[j])){
+                  ++count;
+                  lastorder.listIds.push($scope.tables[Orders.i].orders.Orders[j].id_order); 
+                  $scope.tables[Orders.i].orders.Orders.splice(j, 1);
+                  --j;
+                }
+                else {
+                  $scope.tables[Orders.i].orders.Orders[j].listIds = [$scope.tables[Orders.i].orders.Orders[j].id_order];
+                  lastorder.count = count;
+                  lastorder = $scope.tables[Orders.i].orders.Orders[j];
+                  count = 1;
+                  lastorder.count = count;
+                  console.log('diferente');
+                }
+              };
+              console.log($scope.tables[Orders.i].orders.Orders);
+            });
         };
       });
     };
 
 
 
-    function doTheChange(id_order,status) {
-      var data = {
-        id_order: id_order,
-        status: status
-      };
-      OrderService.changeStatus(data, function(result) {
+    function doTheChange(listIds,status) {
+      for (var i = 0; i < listIds.length; i++) {
+        var data = {
+          id_order: listIds[i],
+          status: status
+        };
+        OrderService.changeStatus(data, function(result) {
               updateOrders();
             });
+      };
+      
     };
 
     $scope.openModalComment = function (page, size, comment) {
@@ -108,16 +143,16 @@
 
     $scope.undo = function() {
       if($scope.stack.length != 0) {
-        doTheChange($scope.stack[$scope.stack.length-1].id_order,$scope.stack[$scope.stack.length-1].state);
+        doTheChange($scope.stack[$scope.stack.length-1].listIds,$scope.stack[$scope.stack.length-1].state);
         $scope.stack.pop();
       }
     }
 
     $scope.changeNextStatus = function(order){
 
-      if(order.state == 'Changed') {doTheChange(order.id_order,'Waiting');$scope.stack.push(order);}
-      else if(order.state == 'Waiting') {doTheChange(order.id_order,'In Process');$scope.stack.push(order);}
-      else if(order.state == 'In Process') {doTheChange(order.id_order,'Ready');$scope.stack.push(order);}
+      if(order.state == 'Changed') {doTheChange(order.listIds,'Waiting');$scope.stack.push(order);}
+      else if(order.state == 'Waiting') {doTheChange(order.listIds,'In Process');$scope.stack.push(order);}
+      else if(order.state == 'In Process') {doTheChange(order.listIds,'Ready');$scope.stack.push(order);}
       
     };
     
