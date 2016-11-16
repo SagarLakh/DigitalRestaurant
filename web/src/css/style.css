@@ -239,3 +239,7 @@ span.label {
 	bottom: 0px;
 	right: 0px;
 }
+
+.marg-10-bot {
+	margin-bottom: 10px !important;
+}

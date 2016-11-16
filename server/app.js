@@ -49,10 +49,10 @@ REST.prototype.configureExpress = function(connection) {
       require('./routes/Client.js')(router,connection,md5,mysql);
       require('./routes/Waiter.js')(router,connection,md5,mysql);
       require('./routes/Chef.js')(router,connection,md5,mysql);
-      require('./routes/Admin.js')(router,connection,md5,mysql);
+      require('./routes/Admin.js')(router,md5,mysql);
       require('./routes/Restaurant.js')(router,connection,md5,mysql);
       require('./routes/RegisteredUser.js')(router,connection,md5,mysql);
-      require('./routes/Menu.js')(router,connection,md5,mysql);
+      require('./routes/Menu.js')(router,md5,mysql);
       require('./routes/Administration.js')(router,connection,md5,mysql);
       require('./routes/Dish.js')(router,connection,md5,mysql);
       require('./routes/ListDishes.js')(router,connection,md5,mysql);

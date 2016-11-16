@@ -9,7 +9,7 @@
     .controller('ChefViewCtrl', ChefViewCtrl);
 
   /** @ngInject */
-  function ChefViewCtrl($stateParams, $uibModal, $interval, ProfileService, OrderService, RestaurantService, SitService, StationService, AdminService, $state, $http, $scope, baSidebarService) {
+  function ChefViewCtrl($stateParams, $uibModal, $interval, DishService, ProfileService, OrderService, RestaurantService, SitService, StationService, AdminService, $state, $http, $scope, baSidebarService) {
     $scope.tables, $scope.sits = {};
     baSidebarService.MenuCollapsed('close');
     var id_station = $stateParams.id_station;
@@ -121,8 +121,28 @@
       
     };
 
+    $scope.ChangeStateActive = function(dish){
+      console.log("state");
+      DishService.changeStateActive(dish.id_dish, function(result) {
+      });
+    };
+
     $scope.openModalComment = function (page, size, comment) {
       $scope.comment = comment;
+      $scope.TheModal = $uibModal.open({
+        animation: true,
+        templateUrl: page,
+        size: size,
+        scope: $scope
+        
+      });
+    };
+
+    $scope.openModalDeactivate = function (page, size) {
+      DishService.getDishesbyRestaurant(id_restaurant, function(Dishes) {
+              $scope.dishes = Dishes;
+              console.log($scope);
+            });
       $scope.TheModal = $uibModal.open({
         animation: true,
         templateUrl: page,
@@ -179,7 +199,7 @@
       
       
     };
-    //$interval(updateOrders, 3000);
+    $interval(updateOrders, 3000);
 
     
    
