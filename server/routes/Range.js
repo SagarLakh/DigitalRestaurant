@@ -1,4 +1,5 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
   function generateToken32()
   {
@@ -15,7 +16,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ??";
       var table = ["Range"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -28,7 +29,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Range","id_range",req.params.id_range];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -41,7 +42,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Range","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -54,7 +55,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "DELETE FROM ?? WHERE ??=?";
       var table = ["Range","id_range",req.params.id_range];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -67,7 +68,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "INSERT INTO ??(??,??,??,??) VALUES (?,?,?,?)";
       var table = ["Range","id_restaurant","nmin","nmax","name",req.body.id_restaurant, req.body.nmin, req.body.nmax, req.body.name];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Ranges)", "Error" : err});
           } else {
@@ -78,7 +79,7 @@ module.exports = function (router,connection,md5,mysql) {
               var query = "INSERT INTO ??(??,??,??,??) VALUES (?,?,?,?)";
               var table = ["Table","id_range","id_table_restaurant","nfc_tag","qr_code",row.insertId, i, generateToken32(),generateToken32()];
               query = mysql.format(query,table);
-              connection.query(query,function(err,row){
+              connection(query,function(err,row){
                   if(err) {
                       res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding Tables)", "Error" : err});
                   }

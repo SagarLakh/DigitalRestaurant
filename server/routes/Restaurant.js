@@ -1,4 +1,5 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
   function ISODateString(d){
     function pad(n){return n<10 ? '0'+n : n}
@@ -14,7 +15,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ??";
       var table = ["Restaurant"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -27,7 +28,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Restaurant","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -42,7 +43,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Waiter","Waiter","Restaurant","Restaurant","id_restaurant","Waiter","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -56,7 +57,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Chef","Chef","Restaurant","Restaurant","id_restaurant","Chef","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -71,7 +72,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Admin","Admin","Administration","Administration","id_admin","Admin","id_admin","Administration","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -85,7 +86,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Restaurant","Administration","Restaurant","id_restaurant","Administration","id_restaurant","Administration","id_admin",req.params.id_admin];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -99,7 +100,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Table","Table","Restaurant","Restaurant","id_restaurant","Table","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -113,7 +114,7 @@ module.exports = function (router,connection,md5,mysql) {
       var table = ["Menu","Menu","Restaurant","Restaurant","id_restaurant","Menu","id_restaurant","Restaurant","id_restaurant",req.params.id_restaurant];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -130,7 +131,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "INSERT INTO ??(??,??,??,??,??, ??) VALUES (?,?,?,?,?, ?)";
       var table = ["Restaurant","name","email","phone1","phone2","address","img_path",req.body.name,req.body.email,req.body.phone1,req.body.phone2,req.body.address, req.body.img_path];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query (Adding User)", "Error" : err});
           } else {
@@ -144,7 +145,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query_select = "DELETE FROM ?? WHERE ??=?";
       var table = ["Restaurant","id_restaurant",req.params.id_restaurant];
       query_select = mysql.format(query_select,table);
-      connection.query(query_select,function(err,row){
+      connection(query_select,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query select restaurant"});
           }
@@ -158,7 +159,7 @@ module.exports = function (router,connection,md5,mysql) {
         var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
         var table = ["Restaurant","name",req.body.name,"img_path", req.body.img_path,"email",req.body.email,"phone1",req.body.phone1,"phone2",req.body.phone2,"address",req.body.address,"id_restaurant",req.body.id_restaurant];
         query = mysql.format(query,table);
-        connection.query(query,function(err,row){
+        connection(query,function(err,row){
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {

@@ -1,11 +1,12 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
 
   router.get("/guests",function(req,res){
       var query = "SELECT * FROM ??";
-      var table = ["Guests"];
+      var table = ["Guest"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -18,7 +19,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Guest","id_guest",req.params.id_guest];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -31,7 +32,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT ??.* FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
       var table = ["Guest", "Guest", "Client", "Client", "id_client", "Guest", "id_client", "Guest", "id_client",req.params.id_client];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -44,7 +45,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "INSERT INTO ??(??,??) VALUES (?,?)";
       var table = ["Guest","id_client","id_guest",req.body.id_client,req.body.name];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {

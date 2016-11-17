@@ -1,11 +1,12 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
 
   router.get("/orders",function(req,res){
       var query = "SELECT * FROM ??";
       var table = ["DishOrder"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -18,7 +19,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["DishOrder","id_order",req.params.id_order];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -32,7 +33,7 @@ module.exports = function (router,connection,md5,mysql) {
         var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ? AND ??.?? = ? ORDER BY ??.??";
         var table = ["Sit","DishOrder","Sit","id_sit","DishOrder","id_sit","List_Stations","DishOrder","id_dish","List_Stations","id_dish","Dish","DishOrder","id_dish","Dish","id_dish","Sit", "id_table",req.body.id_table, "Sit","active", "true","List_Stations","id_station",req.body.id_station, "DishOrder", "sequence_order"];
         query = mysql.format(query,table);
-        connection.query(query,function(err,row){
+        connection(query,function(err,row){
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {
@@ -48,7 +49,7 @@ module.exports = function (router,connection,md5,mysql) {
         var query = "INSERT INTO ??(??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
         var table = ["DishOrder","id_sit","id_dish", "id_client", "id_guest", "state", "sequence","comment", req.body.id_sit, req.body.ListIdDishes[i].id_dish, req.body.id_client, req.body.id_guest,"Waiting",req.body.sequence, req.body.ListIdDishes[i].comment];
         query = mysql.format(query,table);
-        connection.query(query,function(err,row){
+        connection(query,function(err,row){
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } 
@@ -64,7 +65,7 @@ router.put("/orders/status",function(req,res){
       var table = ["DishOrder","state",req.body.status, "id_order", req.body.id_order];
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {
@@ -87,7 +88,7 @@ router.put("/orders/status",function(req,res){
       console.log(req.body.ListIdOrders[i].id_order);
       query = mysql.format(query,table);
       console.log(query);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           }
@@ -103,7 +104,7 @@ router.put("/orders/status",function(req,res){
       var query_select = "DELETE FROM ?? WHERE ??=?";
       var table = ["DishOrder","id_order",req.params.id_order];
       query_select = mysql.format(query_select,table);
-      connection.query(query_select,function(err,row){
+      connection(query_select,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query select restaurant"});
           }

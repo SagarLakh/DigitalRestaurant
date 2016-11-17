@@ -1,12 +1,11 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
   router.get("/users",function(req,res){
-    var token = generateToken();
-      console.log(token);
       var query = "SELECT * FROM ??";
       var table = ["User"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -19,7 +18,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["User","id_user",req.params.id_user];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -33,7 +32,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "INSERT INTO ??(??,??,??,??) VALUES (?,?,?,?)";
       var table = ["User","name","surname","sex","img_path",req.body.name,req.body.surname,req.body.sex, req.body.img_path];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -46,7 +45,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
       var table = ["User","name",req.body.name,"sex",req.body.sex,"surname",req.body.surname, "img_path", req.body.img_path, "id_user",req.body.id_user];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -60,7 +59,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["User","username",req.body.username];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -69,7 +68,7 @@ module.exports = function (router,connection,md5,mysql) {
                 var query = "SELECT * FROM ?? WHERE ??=? and ??=?";
                 var table = ["Token","id_user",user[0].id_user, "token", req.body.token];
                 query = mysql.format(query,table);
-                connection.query(query,function(err,row){
+                connection(query,function(err,row){
                     if(err) {
                         res.json({"Error" : true, "Message" : "Error executing MySQL query"});
                     } else {
@@ -95,7 +94,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "DELETE FROM ?? WHERE ??=? and ??=?";
       var table = ["Token","id_user",req.body.id_user,"token",req.body.token];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Success" : false, "Message" : "Error executing MySQL query"});
           } else {
@@ -115,7 +114,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "DELETE FROM ?? WHERE ??=?";
       var table = ["User","id_user",req.params.id_user];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {

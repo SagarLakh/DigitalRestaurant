@@ -1,4 +1,5 @@
-module.exports = function (router,connection,md5,mysql) {
+var connection = require('../mySqlconnection');
+module.exports = function (router,md5,mysql) {
 
   function ISODateString(d){
     function pad(n){return n<10 ? '0'+n : n}
@@ -14,7 +15,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? ORDER BY ??";
       var table = ["Nationality","country_name"];
       query = mysql.format(query,table);
-      connection.query(query,function(err,rows){
+      connection(query,function(err,rows){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -27,7 +28,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Nationality","id_nationality",req.params.id_nationality];
       query = mysql.format(query,table);
-      connection.query(query,function(err,row){
+      connection(query,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
@@ -40,7 +41,7 @@ module.exports = function (router,connection,md5,mysql) {
       var query_select = "SELECT id_nationality FROM ?? WHERE ??=?";
       var table = ["nationality","id_nationality",req.params.id_nationality];
       query_select = mysql.format(query_select,table);
-      connection.query(query_select,function(err,row){
+      connection(query_select,function(err,row){
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query select nationality"});
           }
