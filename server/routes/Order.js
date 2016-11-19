@@ -60,7 +60,7 @@ module.exports = function (router,md5,mysql) {
       for (var i = 0; i < req.body.ListIdDishes.length; i++) {
         
         var query = "INSERT INTO ??(??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
-        var table = ["DishOrder","id_sit","id_dish", "id_client", "id_guest", "state", "sequence","comment", req.body.id_sit, req.body.ListIdDishes[i].id_dish, req.body.id_client, req.body.id_guest,"Waiting",req.body.ListIdDishes[i].sequence, req.body.ListIdDishes[i].comment];
+        var table = ["DishOrder","id_sit","id_dish", "id_client", "id_guest", "state", "sequence_order","comment", req.body.id_sit, req.body.ListIdDishes[i].id_dish, req.body.id_client, req.body.id_guest,"Waiting",req.body.ListIdDishes[i].sequence, req.body.ListIdDishes[i].comment];
         query = mysql.format(query,table);
         connection(query,function(err,row){
             if(err) {

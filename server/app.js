@@ -20,25 +20,9 @@ app.use(function(req, res, next) {
 
 REST.prototype.connectMysql = function() {
     var self = this;
-    var pool      =    mysql.createPool({
-        connectionLimit : 100,
-        host     : 'localhost',
-        port     : '3306',
-        user     : 'root',
-        password : 'root',
-        database : 'EssenEasy',
-        debug    :  true
-    });
-
-    pool.getConnection(function(err,connection){
-        if(err) {
-          self.stop(err);
-        } else {
-          self.configureExpress(connection);
-        }
-    });
+    self.configureExpress();
 }
-REST.prototype.configureExpress = function(connection) {
+REST.prototype.configureExpress = function() {
       var self = this;
       app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
       app.use(bodyParser.json({limit: '50mb'}));
