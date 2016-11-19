@@ -21,6 +21,18 @@
             );
         },
 
+        getDishesbyMenu : function(id_menu, callback) {
+          var data = {};
+          $http.get(api.url + '/listdishes/menu/' + id_menu, data).then(
+              function(result) {
+                callback(result.data.Dishes);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
         add : function(data, callback) {
           $http.post(api.url + '/listdishes', data).then(
               function(result) {

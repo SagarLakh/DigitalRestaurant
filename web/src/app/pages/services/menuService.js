@@ -64,14 +64,31 @@
           console.log(data);
           $http.post(api.url + '/menus', data).then(
               function(result) {
-                var id_menu = result.data.insertId;
-                for (var dish in data.dishes) {
-                  if (dish.checked == true) {
-                    dish.id_menu = id_menu;
+                console.log(data);
+                console.log(result);
+                var id_menu = result.data.Menu.insertId;
+                if (data.allchecked == true) {
+                  for (var i = 0; i < data.dishes.length; ++i) {
+                    var dish = {
+                      id_dish: data.dishes[i].id_dish,
+                      id_menu: id_menu
+                    }
                     ListDishesService.add(dish, function(ListDish) {
                     });
                   }
                 }
+                else {
+                  for (var i = 0; i < data.checked_dishes.length; ++i) {
+                    var dish = {
+                      id_dish: data.checked_dishes[i],
+                      id_menu: id_menu
+                    }
+                    console.log(dish);
+                    ListDishesService.add(dish, function(ListDish) {
+                    });
+                  }
+                }
+                
                 
                 callback(result.data);
               },

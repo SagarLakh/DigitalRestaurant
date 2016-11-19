@@ -28,19 +28,6 @@ module.exports = function (router,md5,mysql) {
       });
   });
 
-  /*router.get("/dishes/:id_dish/info",function(req,res){
-      var query = "SELECT * FROM ?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? WHERE ??.??=?";
-      var table = ["Dish", "List_Allergies","Dish","id_dish","List_Allergies","id_dish","Allergy","List_Allergies","id_allergy","Allergy","id_allergy","Type_Dish","Dish","id_type_dish","Type_Dish","id_type_dish", "Dish","id_dish",req.params.id_dish];
-      query = mysql.format(query,table);
-      connection(query,function(err,row){
-          if(err) {
-              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
-          } else {
-              res.json({"Error" : false, "Message" : "Success", "Dish" : row});
-          }
-      });
-  });*/
-
  router.get("/dishes/:id_dish/info",function(req,res){
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["Dish","id_dish",req.params.id_dish];
@@ -51,17 +38,17 @@ module.exports = function (router,md5,mysql) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
 
-              result = row;
+              result = row[0];
               console.log(result);
-              var query = "SELECT name FROM ?? WHERE ??=?";
-              var table = ["Type_Dish","id_type_dish",result[0].id_type_dish];
+              var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??=?";
+              var table = ["List_Allergies","Allergy","List_Allergies","id_allergy", "Allergy","id_allergy", "id_dish",req.params.id_dish];
               query = mysql.format(query,table);
               connection(query,function(err,row){
                   if(err) {
                       res.json({"Error" : true, "Message" : "Error executing MySQL query"});
                   } else {
 
-                      result.name_type = row[0];
+                      result.allergies = row;
                       res.json({"Error" : false, "Message" : "Success", "Dish" : result});
                   }
               });
@@ -112,7 +99,7 @@ module.exports = function (router,md5,mysql) {
   router.post("/dishes",function(req,res){
       var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?,?,?,?,?,?,?,?,?)";
       var table = ["Dish","name","description","price","tax","id_restaurant","id_type_dish","sequence","img_path","active",
-      req.body.name,req.body.description,req.body.price,req.body.tax,req.body.id_restaurant,req.body.id_type_dish,req.body.sequence,req.body.img_path,req.body.active,];
+      req.body.name,req.body.description,req.body.price,req.body.tax,req.body.id_restaurant,req.body.id_type_dish,req.body.sequence,req.body.img_path,req.body.active];
       query = mysql.format(query,table);
       console.log(query);
       connection(query,function(err,row){

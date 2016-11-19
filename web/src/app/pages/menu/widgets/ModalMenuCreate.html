@@ -137,7 +137,7 @@
                         <table class="table" st-table="item.create_list_dishes">
                           <thead>
                           <tr class="sortable ">
-                            <th><input ng-model="allchecked" type="checkbox"></th>
+                            <th><input ng-change="toggleAllDishes()" ng-model="allchecked" type="checkbox"></th>
                             <th st-sort="name">Name</th>
                             <th st-sort="name_type">Type_dish</th>
                           </tr>
@@ -151,7 +151,7 @@
                           </thead>
                           <tbody>
                           <tr ng-repeat="dish in item.create_list_dishes">
-                            <td><input ng-model="dish.checked" ng-checked="dish.checked || allchecked" type="checkbox"></td>
+                            <td><input ng-model="dish.checked" ng-checked="dish.checked || allchecked" ng-change="toggleDish(dish.id_dish)" type="checkbox"></td>
                             <td>{{dish.name}}</td>
                             <td>{{dish.name_type}}</td>
                           </tr>

@@ -81,6 +81,21 @@ module.exports = function (router,md5,mysql) {
         });
     });
 
+  router.post("/menus",function(req,res){
+      var query = "INSERT INTO ?? (??, ??, ??, ??, ??, ??) VALUES (?,?,?,?,?,?)";
+      var table = ["Menu","name","listDays","price","moment_day","active", "id_restaurant"
+      ,req.body.name,req.body.listDays,req.body.price,req.body.moment_day,req.body.active, req.body.id_restaurant];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query", "Success" : false});
+          } else {
+              res.json({"Error" : false, "Message" : "Menu Added correctly", "Success" : true, "Menu" : row});
+          }
+      });
+  });
+
   router.put("/menus/:id_menu/active",function(req,res){
         var query = "SELECT * FROM ?? WHERE ?? = ?";
         var table = ["Menu","id_menu",req.params.id_menu];

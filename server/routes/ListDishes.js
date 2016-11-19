@@ -45,4 +45,18 @@ module.exports = function (router,md5,mysql) {
       });
   });
 
+  router.post("/listdishes",function(req,res){
+      var query = "INSERT INTO ?? (??, ??) VALUES (?,?)";
+      var table = ["List_Dishes","id_menu","id_dish",req.body.id_menu,req.body.id_dish];
+      query = mysql.format(query,table);
+      console.log(query);
+      connection(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query", "Success" : false});
+          } else {
+              res.json({"Error" : false, "Message" : "ListDish Added correctly", "Success" : true, "List_Dish" : row});
+          }
+      });
+  });
+
 }
