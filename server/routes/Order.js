@@ -15,6 +15,19 @@ module.exports = function (router,md5,mysql) {
       });
   });
 
+  router.get("/orders/sit/:id_sit/client/:id_client",function(req,res){
+      var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??=? AND ?? = ?";
+      var table = ["DishOrder","Dish","DishOrder","id_dish","Dish","id_dish","id_sit",req.params.id_sit, "id_client",req.params.id_client];
+      query = mysql.format(query,table);
+      connection(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Order" : row});
+          }
+      });
+  });
+
   router.get("/orders/:id_order",function(req,res){
       var query = "SELECT * FROM ?? WHERE ??=?";
       var table = ["DishOrder","id_order",req.params.id_order];
