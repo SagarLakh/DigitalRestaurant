@@ -56,7 +56,7 @@ module.exports = function (router,md5,mysql) {
     });
 
    router.post("/orders",function(req,res){
-
+      console.log(req.body);
       for (var i = 0; i < req.body.ListIdDishes.length; i++) {
         
         var query = "INSERT INTO ??(??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
