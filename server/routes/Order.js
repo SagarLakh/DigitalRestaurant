@@ -30,7 +30,7 @@ module.exports = function (router,md5,mysql) {
 
   router.get("/orders/sit/:id_sit/client/:id_client/topay",function(req,res){
       var query = "SELECT ??.*, ??.*, ??.name AS name_client, ??.name AS name_guest FROM ?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ? AND ??.?? = ?";
-      var table = ["Dishorder","Dish","User","Guest","DishOrder","Dish","DishOrder","id_dish","Dish","id_dish",
+      var table = ["DishOrder","Dish","User","Guest","DishOrder","Dish","DishOrder","id_dish","Dish","id_dish",
       "Client","DishOrder","id_client","Client","id_client",
       "Registered_User","Client","id_registered_user","Registered_User","id_registered_user",
       "User","Registered_User","id_user", "User","id_user",
@@ -48,7 +48,7 @@ module.exports = function (router,md5,mysql) {
 
   router.get("/orders/sit/:id_sit/client/:id_client",function(req,res){
       var query = "SELECT ??.*,??.*, ??.name AS name_client, ??.name AS name_guest FROM ?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? LEFT JOIN ?? ON ??.?? = ??.?? WHERE ??.??=? AND ??.?? = ?";
-      var table = ["Dishorder","Dish","User","Guest","DishOrder","Dish","DishOrder","id_dish","Dish","id_dish",
+      var table = ["DishOrder","Dish","User","Guest","DishOrder","Dish","DishOrder","id_dish","Dish","id_dish",
       "Client","DishOrder","id_client","Client","id_client",
       "Registered_User","Client","id_registered_user","Registered_User","id_registered_user",
       "User","Registered_User","id_user", "User","id_user",
