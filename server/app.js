@@ -49,6 +49,7 @@ REST.prototype.configureExpress = function() {
       require('./routes/Order.js')(router,md5,mysql);
       require('./routes/Allergy.js')(router,md5,mysql);
       require('./routes/ListAllergies.js')(router,md5,mysql);
+      require('./routes/ListStations.js')(router,md5,mysql);
       require('./routes/Nationality.js')(router,md5,mysql);
       require('./routes/Image.js')(router,md5,mysql);
       //var rest_router = new rest(router,md5);

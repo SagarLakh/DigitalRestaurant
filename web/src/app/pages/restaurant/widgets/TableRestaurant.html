@@ -15,7 +15,7 @@
         <i ng-if="active_restaurant == restaurant.id_restaurant" class="ion-ios-eye iconList iconEyeActive iconEye"></i>
         <i ng-click="ChangeActiveRestaurant(restaurant)" ng-if="active_restaurant != restaurant.id_restaurant" class="ion-ios-eye-outline iconList iconEye"></i>
       </td>
-      <td>{{restaurant.name}}</td>
+      <td data-toggle="modal" ng-click="openModalEdit('app/pages/restaurant/widgets/ModalRestaurantEdit.html', 'lg', restaurant)">{{restaurant.name}}</td>
       <td>{{restaurant.address}}</td>
       <td>{{restaurant.email}}</td>
       <td>{{restaurant.phone1}}</td>

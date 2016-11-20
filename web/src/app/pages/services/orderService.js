@@ -35,6 +35,18 @@
             );
         },
 
+        finishSequence : function(data, callback) {
+          $http.put(api.url + '/orders/finish', data).then(
+              function(result) {
+                callback(result.data);
+              },
+              function(error) {
+                console.log(error);
+                callback(error);
+              }
+            );
+        },
+
         delete: function(id_order, callback) {
           var data = {};
           $http.delete(api.url + '/orders/' + id_order, data).then(

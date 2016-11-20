@@ -1,3 +1,6 @@
+body {
+	background: #F0F3F4 !important;
+}
 .iconList {
 	font-size: 24px;
 }
@@ -235,9 +238,7 @@ span.label {
 }
 
 .undo-button-wrapper {
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
+
 }
 
 .marg-10-bot {

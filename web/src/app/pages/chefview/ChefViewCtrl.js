@@ -14,6 +14,7 @@
     baSidebarService.MenuCollapsed('close');
     var id_station = $stateParams.id_station;
     $scope.stack = [];
+    $scope.finished_stack = [];
     var refresh;
 
     function checkIfSame (lastorder, neworder) {
@@ -35,13 +36,37 @@
           OrderService.getActiveOrdersbyStationAndTable(data, function(Orders) {
               $scope.tables[Orders.i].orders = Orders;
               var count = 1;
+              var remove = true;
+              var old_seq = $scope.tables[Orders.i].orders.Orders[0].sequence_order;
               var length = $scope.tables[Orders.i].orders.Orders.length;
+              var listfinished = [];
+              if ($scope.tables[Orders.i].orders.Orders[0].state == 'Ready') listfinished.push($scope.tables[Orders.i].orders.Orders[0].id_order);
+              else remove = false;
               $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
               var lastorder = $scope.tables[Orders.i].orders.Orders[0];
               
               console.log($scope.tables[Orders.i].orders.Orders[0].listIds);
               lastorder.count = count;
+
               for (var j = 1; j < $scope.tables[Orders.i].orders.Orders.length; j++) {
+                if(old_seq != $scope.tables[Orders.i].orders.Orders[j].sequence_order) {
+                  old_seq = $scope.tables[Orders.i].orders.Orders[j].sequence_order;
+                  if (remove) {
+                    var listf = {
+                      listIds : listfinished,
+                      setter : 'true'
+                    }
+                    OrderService.finishSequence(listf, function(result) {
+                      $scope.finished_stack.push(listf.listIds);
+                    });
+                  }
+                  remove = true;
+                  listfinished = [];
+                }
+                
+                if ($scope.tables[Orders.i].orders.Orders[j].state != 'Ready') remove = false;
+                else listfinished.push($scope.tables[Orders.i].orders.Orders[j].id_order);
+                
                 $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
                 if (checkIfSame(lastorder, $scope.tables[Orders.i].orders.Orders[j])){
                   ++count;
@@ -58,6 +83,8 @@
                   console.log('diferente');
                 }
               };
+
+
               console.log($scope.tables[Orders.i].orders.Orders);
             });
         };
@@ -75,15 +102,40 @@
               iteration : i
             }
           OrderService.getActiveOrdersbyStationAndTable(data, function(Orders) {
+              console.log(Orders);
               $scope.tables[Orders.i].orders = Orders;
               var count = 1;
+              var remove = true;
+              var old_seq = $scope.tables[Orders.i].orders.Orders[0].sequence_order;
               var length = $scope.tables[Orders.i].orders.Orders.length;
+              var listfinished = [];
+              if ($scope.tables[Orders.i].orders.Orders[0].state == 'Ready') listfinished.push($scope.tables[Orders.i].orders.Orders[0].id_order);
+              else remove = false;
               $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
               var lastorder = $scope.tables[Orders.i].orders.Orders[0];
               
               console.log($scope.tables[Orders.i].orders.Orders[0].listIds);
               lastorder.count = count;
+
               for (var j = 1; j < $scope.tables[Orders.i].orders.Orders.length; j++) {
+                if(old_seq != $scope.tables[Orders.i].orders.Orders[j].sequence_order) {
+                  old_seq = $scope.tables[Orders.i].orders.Orders[j].sequence_order;
+                  if (remove) {
+                    var listf = {
+                      listIds : listfinished,
+                      setter : 'true'
+                    }
+                    OrderService.finishSequence(listf, function(result) {
+                      $scope.finished_stack.push(listf.listIds);
+                    });
+                  }
+                  remove = true;
+                  listfinished = [];
+                }
+                
+                if ($scope.tables[Orders.i].orders.Orders[j].state != 'Ready') remove = false;
+                else listfinished.push($scope.tables[Orders.i].orders.Orders[j].id_order);
+                
                 $scope.tables[Orders.i].orders.Orders[0].listIds = [$scope.tables[Orders.i].orders.Orders[0].id_order];
                 if (checkIfSame(lastorder, $scope.tables[Orders.i].orders.Orders[j])){
                   ++count;
@@ -100,6 +152,17 @@
                   console.log('diferente');
                 }
               };
+              if (listfinished.lenght != 0) {
+                var listf = {
+                      listIds : listfinished,
+                      setter : 'true'
+                    }
+                    OrderService.finishSequence(listf, function(result) {
+                      $scope.finished_stack.push(listf.listIds);
+                    });
+              }
+
+
               console.log($scope.tables[Orders.i].orders.Orders);
             });
         };
@@ -120,6 +183,14 @@
       };
       
     };
+
+    $scope.itemOnLongPress = function(id) {
+      console.log('Long press');
+    }
+
+    $scope.itemOnTouchEnd = function(id) {
+      console.log('Touch end');
+    }
 
     $scope.ChangeStateActive = function(dish){
       console.log("state");
@@ -165,6 +236,14 @@
       if($scope.stack.length != 0) {
         doTheChange($scope.stack[$scope.stack.length-1].listIds,$scope.stack[$scope.stack.length-1].state);
         $scope.stack.pop();
+      }
+      if($scope.finished_stack.length != 0) {
+        var listf = {
+                      listIds : $scope.finished_stack[$scope.finished_stack.length-1],
+                      setter : 'false'
+                    }
+        OrderService.finishSequence(listf, function(result) {});
+        $scope.finished_stack.pop();
       }
     }
 

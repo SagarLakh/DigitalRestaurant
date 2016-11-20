@@ -9,7 +9,7 @@
       <th></th>
     </tr>
     <tr ng-repeat="chef in chefs">
-      <td>{{chef.name}}</td>
+      <td data-toggle="modal" ng-click="openModalEdit('app/pages/chef/widgets/ModalChefEdit.html', 'lg', chef)">{{chef.name}}</td>
       <td>{{chef.surname}}</td>
       <td><span class="flag-icon flag-icon-{{chef.ISOCode}}"></span> {{chef.country_name}}</td>
       <td>

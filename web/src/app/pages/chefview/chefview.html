@@ -2,7 +2,7 @@
 <button data-toggle="modal" ng-click="openModalDeactivate('app/pages/chefview/widgets/ModalChefViewDeactivate.html', 'lg')" class="btn btn-warning marg-10-bot"><i class="icon icon-hot-meal"></i> Deactivate Dishes </button>
   <div class="row">
     <div ng-if="table.orders.Orders.length != 0" ng-repeat="table in tables" class="col-lg-6 col-md-6">
-    	<div ba-panel ba-panel-title-chef="{{table.id_table_restaurant}}" ba-panel-class="with-scroll table-panel">
+    	<div ba-panel on-long-press="itemOnLongPress(1)" ba-panel-title-chef="{{table.id_table_restaurant}}" ba-panel-class="with-scroll table-panel">
 			<div class="table-responsive table-whaleat table-chefview">
 			  <div include-with-scope="app/pages/chefview/widgets/TableChefView.html"></div>
 			</div>

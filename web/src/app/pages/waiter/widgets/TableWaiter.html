@@ -9,7 +9,7 @@
       <th></th>
     </tr>
     <tr ng-repeat="waiter in waiters">
-      <td>{{waiter.name}}</td>
+      <td data-toggle="modal" ng-click="openModalEdit('app/pages/waiter/widgets/ModalWaiterEdit.html', 'lg', waiter)">{{waiter.name}}</td>
       <td>{{waiter.surname}}</td>
       <td><span class="flag-icon flag-icon-{{waiter.ISOCode}}"></span> {{waiter.country_name}}</td>
       <td>

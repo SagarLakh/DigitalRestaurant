@@ -41,6 +41,19 @@ module.exports = function (router,md5,mysql) {
       });
   });
 
+  router.post("/stations",function(req,res){
+      var query = "INSERT INTO ??(??,??) VALUES (?,?)";
+      var table = ["Station","id_restaurant","name",req.body.id_restaurant, req.body.name];
+      query = mysql.format(query,table);
+      connection(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
+              res.json({"Error" : false, "Message" : "Success", "Station" : row});
+          }
+      });
+  });
+
   router.get("/stations/:id_station/dishes",function(req,res){
       var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??=?";
       var table = ["List_Stations","Dish","List_Stations", "id_dish", "Dish", "id_dish", "id_station",req.params.id_station];

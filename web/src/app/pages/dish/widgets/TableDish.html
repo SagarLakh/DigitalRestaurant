@@ -20,7 +20,7 @@
           </tr>
           <tr ng-repeat="dish in type.dishes">
             <td></td>
-            <td>{{dish.name}}</td>
+            <td data-toggle="modal" ng-click="openModalEdit('app/pages/dish/widgets/ModalDishEdit.html', 'lg', dish)">{{dish.name}}</td>
             <td>{{dish.description}}</td>
             <td>{{(dish.price / (1+(dish.tax/100))).toFixed(2)}} €</td>
             <td>{{dish.tax}} %</td>
