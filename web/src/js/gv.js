@@ -2,7 +2,7 @@ var protocol = 'http';
 
 var api = {};
 api.port = 8080;
-api.domain = 'localhost:' + api.port + '/api';
+api.domain = 'whaleat.com:' + api.port + '/api';
 api.url = protocol + "://" + api.domain;
 
 var web = {};
