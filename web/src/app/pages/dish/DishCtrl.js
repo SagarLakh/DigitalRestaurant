@@ -127,6 +127,7 @@
 
       console.log($scope);
       var item = JSON.parse(JSON.stringify(data));
+      item.active = "true";
       AllergyService.getAllergiesByDish(item.id_dish, function(Allergies) {
         item.allergies = Allergies;
         if (item.img_path === null) {$scope.picture = item.img_path= $filter('appImage')('theme/no-photo-dish.png'); console.log($scope.picture);}

@@ -91,7 +91,38 @@ module.exports = function (router,md5,mysql) {
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
-              res.json({"Error" : false, "Message" : "Success", "Dishes" : row});
+              var result = {};
+              result.listdishes = row;
+              result.allergies = [];
+              var length = row.length;
+              for (var i = 0; i < row.length; i++) {
+                
+              
+              
+              console.log(result[0]);
+              var query = "SELECT * FROM ?? JOIN ?? ON ??.?? = ??.?? WHERE ??=?";
+              var table = ["List_Allergies","Allergy","List_Allergies","id_allergy", "Allergy","id_allergy", "id_dish",row[i].id_dish];
+              query = mysql.format(query,table);
+              connection(query,function(err,row){
+                  if(err) {
+                      res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+                  } else {
+                      console.log(row);
+                      console.log(i)
+                      if(row.length > 0){
+                        for (var j = 0; j < row.length; j++) {
+                          result.allergies.push(row[j]);
+                        }
+                        console.log(result);
+                      }
+                      
+                  }
+              });
+            }
+            setTimeout(function(){
+                res.json({"Error" : false, "Message" : "Success", "Dish" : result});
+            }, 100);
+            
           }
       });
   });
