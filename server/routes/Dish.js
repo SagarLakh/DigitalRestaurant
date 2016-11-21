@@ -91,6 +91,19 @@ module.exports = function (router,md5,mysql) {
           if(err) {
               res.json({"Error" : true, "Message" : "Error executing MySQL query"});
           } else {
+            res.json({"Error" : false, "Message" : "Success", "Dishes" : row});
+          }
+      });
+  });
+
+  router.get("/dishes/type_dish/:id_type_dish/allergies",function(req,res){
+      var query = "SELECT * FROM ?? WHERE ??=?";
+      var table = ["Dish","id_type_dish",req.params.id_type_dish];
+      query = mysql.format(query,table);
+      connection(query,function(err,row){
+          if(err) {
+              res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+          } else {
               var result = {};
               result.listdishes = row;
               result.allergies = [];

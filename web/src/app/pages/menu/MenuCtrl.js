@@ -90,6 +90,8 @@
 
     $scope.openModalCreate = function (page, size) {
       $scope.item = {};
+      $scope.item.array_days = ["false","false","false","false","false","false","false"];
+      $scope.item.array_moment_day = ["false","false"];
       $scope.item.active = 1;
       $scope.item.dishes = $scope.dishes;
       $scope.item.create_list_dishes = angular.copy($scope.dishes);
@@ -128,8 +130,8 @@
       if (item != null) {
         item.listDays = '';
         item.moment_day = '';
-        if (item.active) item.active = 'false';
-        else item.active = 'true';
+        if (item.active) item.active = 'true';
+        else item.active = 'false';
         if (item.fixed_price == false) item.price = null;
         for (var i = 0; i < item.array_days.length; i++) {
           if(item.array_days[i] == true) item.listDays = item.listDays + '1';

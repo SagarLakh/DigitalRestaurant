@@ -101,7 +101,8 @@
           for (var i = 0; i < $scope.type_dishes.length; i++) {
              DishService.getDishesbyTypeDish(i, $scope.type_dishes[i].id_type_dish, function(Dishes) {
                   $scope.type_dishes[Dishes.i].dishes = Dishes.Dishes;
-                  $scope.item = {};
+                  $scope.item = {img_path : $filter('appImage')('theme/no-photo-dish.png')}; 
+                  $scope.item.id_restaurant = id_restaurant;
               });
             
           };
