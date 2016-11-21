@@ -109,10 +109,17 @@ module.exports = function (router,md5,mysql) {
                   } else {
                       console.log(row);
                       console.log(i)
+
                       if(row.length > 0){
+                        var data = {
+                            id_dish: row[0].id_dish,
+                            allergies: []
+                          }
                         for (var j = 0; j < row.length; j++) {
-                          result.allergies.push(row[j]);
+
+                          data.allergies.push(row[j].name);
                         }
+                        result.allergies.push(data);
                         console.log(result);
                       }
                       
